@@ -8,6 +8,7 @@ package edu.gatech.oad.antlab.person;
  * @author Bob
  * @version 1.1
  */
+import java.util.*;
 public class Person2 {
     /** Holds the persons real name */
     private String name;
@@ -30,8 +31,19 @@ public class Person2 {
 	 * @return the modified string
 	 */
 	private String calc(String input) {
-	  //Person 2 put your implementation here
-	  return null;
+        //Person 2 put your implementation here
+	    if (input == null) return null;
+        Set<Integer> set = new HashSet<>();
+        Random r = new Random();
+        StringBuilder newString = new StringBuilder();
+        for (int i = 0; newString.length() < input.length(); i++) {
+            int rand = r.nextInt(input.length());
+            if (!set.contains(rand)) {
+                set.add(rand);
+                newString.append(input.charAt(rand));
+            }
+        }
+        return newString.toString();
 	}
 	/**
 	 * Return a string rep of this object
