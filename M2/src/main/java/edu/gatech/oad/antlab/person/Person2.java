@@ -32,18 +32,6 @@ public class Person2 {
 	 */
 	private String calc(String input) {
         //Person 2 put your implementation here
-	    if (input == null) return null;
-        Set<Integer> set = new HashSet<>();
-        Random r = new Random();
-        StringBuilder newString = new StringBuilder();
-        for (int i = 0; newString.length() < input.length(); i++) {
-            int rand = r.nextInt(input.length());
-            if (!set.contains(rand)) {
-                set.add(rand);
-                newString.append(input.charAt(rand));
-            }
-        }
-        return newString.toString();
 	}
 	/**
 	 * Return a string rep of this object
