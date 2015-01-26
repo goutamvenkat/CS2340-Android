@@ -31,7 +31,18 @@ public class Person1 {
 	 */
 	private String calc(String input) {
 	  //Person 1 put your implementation here
-	  return null;
+		  if (input == null) {
+		  	return null;
+		  }
+		  char[] arr = input.toCharArray();
+		  if (arr.length <= 2) return input;
+		  for(int i = 2; i < arr.length; i++) {
+		  	arr[i] = arr[i-2];
+		  }
+		  arr[arr.length - 2] = input.charAt(0);
+		  arr[arr.length - 1] = input.charAt(1);
+		  return new String(arr);
+
 	}
 	
 	/**
