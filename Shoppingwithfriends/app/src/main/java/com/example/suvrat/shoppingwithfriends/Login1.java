@@ -22,7 +22,7 @@ public class Login1 extends ActionBarActivity {
         textView.setText(message);
 
         // Set the text view as the activity layout
-        setContentView(textView);
+        setContentView(R.layout.activity_login1);
     }
 
 
