@@ -44,8 +44,7 @@ public class Login extends ActionBarActivity {
 
     public void launchLogin(View view) {
 
-        Intent intent = new Intent(this, Login1.class);
+        Intent intent = new Intent(this, Registration.class);
         startActivity(intent);
-
     }
 }
