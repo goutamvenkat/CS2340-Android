@@ -42,9 +42,14 @@ public class Login extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void launchLogin(View view) {
+    public void launchRegistration(View view) {
 
         Intent intent = new Intent(this, Registration.class);
+        startActivity(intent);
+    }
+
+    public void launchLogin(View view) {
+        Intent intent = new Intent(this, LoginPage.class);
         startActivity(intent);
     }
 }

@@ -22,7 +22,7 @@
         android:id="@+id/button"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:onClick="launchLogin"
+        android:onClick="launchRegistration"
         android:layout_marginTop="49dp" />
 
     <Button
@@ -32,6 +32,7 @@
         android:id="@+id/button2"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
+        android:onClick="launchLogin"
         android:layout_marginTop="44dp" />
 
 </RelativeLayout>

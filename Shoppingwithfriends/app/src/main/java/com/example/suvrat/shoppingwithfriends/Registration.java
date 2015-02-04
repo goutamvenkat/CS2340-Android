@@ -13,14 +13,18 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Registration extends ActionBarActivity {
     private String name;
-    private String email;
+    private String username;
     private String password;
-    protected Map<String, String> emails_and_passwords = new HashMap<>();
+    private String email;
+    protected Map<String, String> usernames_and_passwords = new HashMap<>();
+    protected Set<String> emails = new HashSet<>();
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +36,12 @@ public class Registration extends ActionBarActivity {
         register.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 name = ((EditText) findViewById(R.id.name)).getText().toString();
-                email = ((EditText) findViewById(R.id.email)).getText().toString();
+                username = ((EditText) findViewById(R.id.username)).getText().toString();
                 password = ((EditText) findViewById(R.id.password)).getText().toString();
-                if (!emails_and_passwords.containsKey(email)) {
-                    emails_and_passwords.put(email,password);
+                email = ((EditText) findViewById(R.id.email)).getText().toString();
+                if (!usernames_and_passwords.containsKey(username)) {
+                    usernames_and_passwords.put(username,password);
+                    emails.add(email);
                     setContentView(R.layout.registration_confirmation);
                     Button ok = (Button)findViewById(R.id.confirmed);
                     ok.setOnClickListener(new View.OnClickListener(){
