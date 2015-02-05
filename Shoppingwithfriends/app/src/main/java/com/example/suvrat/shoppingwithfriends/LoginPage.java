@@ -13,8 +13,8 @@ import android.widget.EditText;
  */
 public class LoginPage extends ActionBarActivity{
 
-    private String sample_username = "Goutam";
-    private String sample_password = "2340";
+    private String sample_username = "user";
+    private String sample_password = "pass";
     String username, password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
