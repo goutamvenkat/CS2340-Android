@@ -12,7 +12,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/name"
-        android:text="Name"
+        android:hint="Name"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username"
@@ -24,7 +24,7 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password"
-        android:text="Random"
+        android:hint="Password"
         android:layout_marginBottom="136dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -35,19 +35,9 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/username"
-        android:text="Username"
+        android:hint="Username"
         android:layout_below="@+id/name"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="58dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Password"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/password"
+        android:layout_marginTop="58dp"
         android:layout_alignLeft="@+id/password"
         android:layout_alignStart="@+id/password" />
 
@@ -66,7 +56,7 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/email"
-        android:text="example@example.com"
+        android:hint="example@example.com"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username" />

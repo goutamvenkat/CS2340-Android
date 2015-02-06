@@ -10,7 +10,7 @@
         android:id="@+id/passwordLoginPage"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text="Password" />
+        android:hint="Password" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_above="@+id/passwordLoginPage"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="66dp"
-        android:text="Username" />
+        android:hint="Username" />
 
     <Button
         android:layout_width="wrap_content"
