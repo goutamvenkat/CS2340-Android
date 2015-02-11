@@ -1,4 +1,4 @@
-package com.example.suvrat.shoppingwithfriends;
+package com.example.suvrat.ShoppingWithFriends;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
