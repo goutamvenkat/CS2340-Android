@@ -17,6 +17,12 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+/**
+ * Activity to register User for the App
+ *
+ * @author Suvrat Bhooshan
+ * @version 1.0
+ */
 
 public class RegisterScreen extends ActionBarActivity {
 
@@ -29,6 +35,8 @@ public class RegisterScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
+
+        //Initilialize Parse
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");

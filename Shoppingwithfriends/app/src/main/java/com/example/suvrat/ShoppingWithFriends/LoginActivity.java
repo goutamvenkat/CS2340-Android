@@ -17,7 +17,12 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-
+/**
+ * The Main Home page activity for the app
+ *
+ * @author Suvrat Bhooshan
+ * @version 1.0
+ */
 public class LoginActivity extends Activity {
 
     protected EditText mUsername;
@@ -30,10 +35,12 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Parse.enableLocalDatastore(this);
+
+        //Initialize Parse
+     //   Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
 
-        //Initialize Variable
+        //Initialize Variables
         mUsername = (EditText) findViewById(R.id.LoginUsername);
         mPassword = (EditText) findViewById(R.id.LoginPassword);
         LoginButton = (Button) findViewById(R.id.LoginButton);
