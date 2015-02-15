@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -54,7 +55,7 @@ public class RegisterScreen extends ActionBarActivity {
             public void onClick(View v) {
 
                 //Get Strings
-                String username = mUserName.getText().toString().trim();
+                final String username = mUserName.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String email = mEmail.getText().toString().trim();
 
@@ -76,10 +77,11 @@ public class RegisterScreen extends ActionBarActivity {
 
 
                     //Initialize User
-                    ParseUser user = new ParseUser();
+                    final ParseUser user = new ParseUser();
                     user.setUsername(username);
                     user.setPassword(password);
                     user.setEmail(email);
+                    user.put("friendsRequested", "");
 
                     //Register User
                     user.signUpInBackground(new SignUpCallback() {
@@ -90,6 +92,11 @@ public class RegisterScreen extends ActionBarActivity {
                             if (null == e) {
 
                                 Toast.makeText(RegisterScreen.this, "Success", Toast.LENGTH_LONG).show();
+                                ParseObject Friends = new ParseObject("Friends");
+                                Friends.put("username", username);
+                                Friends.put("FriendsRequested", "");
+                                Friends.put("Friends", "");
+                                Friends.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, MainActivity.class);
                                 startActivity(takeMain);
