@@ -64,7 +64,7 @@ public class LoginActivity extends Activity {
 
                             Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
 
-                            Intent takeHome = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent takeHome = new Intent(LoginActivity.this, AddFriends.class);
                             startActivity(takeHome);
 
 
