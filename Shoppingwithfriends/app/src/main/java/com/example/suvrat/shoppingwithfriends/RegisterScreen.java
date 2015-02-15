@@ -80,7 +80,7 @@ public class RegisterScreen extends ActionBarActivity {
                     user.setUsername(username);
                     user.setPassword(password);
                     user.setEmail(email);
-
+                    user.put("friendsRequested", "");
                     //Register User
                     user.signUpInBackground(new SignUpCallback() {
                         @Override

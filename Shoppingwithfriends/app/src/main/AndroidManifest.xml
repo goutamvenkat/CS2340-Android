@@ -15,6 +15,10 @@
             android:label="RegisterScreen" >
         </activity>
         <activity
+            android:name="com.example.suvrat.ShoppingWithFriends.AddFriends"
+            android:label="AddFriends" >
+        </activity>
+        <activity
             android:name="com.example.suvrat.ShoppingWithFriends.MainActivity"
             android:label="HelloWorld" >
         </activity>
