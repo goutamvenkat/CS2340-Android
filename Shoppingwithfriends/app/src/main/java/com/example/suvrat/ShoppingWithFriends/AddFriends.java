@@ -9,15 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseUser;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.FindCallback;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
-import android.widget.Toast;
 
 
 /**
@@ -65,16 +66,16 @@ public class AddFriends extends ActionBarActivity {
 
                 } else {
 
-                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", username);
-                    query.findInBackground(new FindCallback<ParseUser>() {
-                        public void done(List<ParseUser> objects, ParseException e) {
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> objects, ParseException e) {
                             if (e == null && objects.size() > 0) {
-                                ParseUser newUser = objects.get(0);
-                                ParseUser currentUser = ParseUser.getCurrentUser();
-                                String currentUserUsername = newUser.getUsername();
-                                currentUser.put("friendsRequested", currentUserUsername);
-                                currentUser.saveInBackground(new SaveCallback() {
+                                ParseObject newUser = objects.get(0);
+                                String currentUserUsername = ParseUser.getCurrentUser().getUsername();
+
+                                newUser.put("FriendsRequested", currentUserUsername);
+                                newUser.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
                                         if (e == null) {
