@@ -1,15 +1,23 @@
 package com.example.suvrat.ShoppingWithFriends;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -24,13 +32,29 @@ import java.util.List;
 /**
  * Created by BhavaniJaladanki on 2/13/15.
  */
-public class AddFriends extends ActionBarActivity {
+public class AddFriends extends FragmentActivity {
+
 
     protected EditText mUserName;
     protected Button addFriendButton;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    private FacebookFragment mainFragment;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            // Add the fragment on initial activity setup
+            mainFragment = new FacebookFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, mainFragment)
+                    .commit();
+        } else {
+            // Or set the fragment from restored state info
+            mainFragment = (FacebookFragment) getSupportFragmentManager()
+                    .findFragmentById(android.R.id.content);
+        }
         setContentView(R.layout.activity_addfriends);
 
         //Initilialize Parse
@@ -41,6 +65,9 @@ public class AddFriends extends ActionBarActivity {
         //Initialize Components
         mUserName = (EditText) findViewById(R.id.FriendUsername);
         addFriendButton = (Button) findViewById(R.id.addFriendButton);
+
+
+
 
         //Listen to Register Button Click
         addFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +118,7 @@ public class AddFriends extends ActionBarActivity {
 
                                             AlertDialog dialog = builder.create();
                                             dialog.show();
-                                        }
-
-                                        else {
+                                        } else {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
                                             builder.setMessage(e.getMessage());
                                             builder.setTitle("User does not exist");
@@ -111,12 +136,7 @@ public class AddFriends extends ActionBarActivity {
                                 });
 
 
-
-
-
-
-                            }
-                            else if (e != null) {
+                            } else if (e != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
                                 builder.setMessage(e.getMessage());
                                 builder.setTitle("User does not exist");
@@ -130,7 +150,6 @@ public class AddFriends extends ActionBarActivity {
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
                             }
-
 
 
                         }

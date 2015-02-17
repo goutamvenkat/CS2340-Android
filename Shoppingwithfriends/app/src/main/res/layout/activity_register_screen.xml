@@ -46,4 +46,5 @@
         android:id="@+id/RegisterButton"
         android:layout_below="@+id/RegisterPasswordEditText"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
