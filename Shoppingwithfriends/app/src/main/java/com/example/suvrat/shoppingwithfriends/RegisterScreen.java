@@ -18,6 +18,8 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
+
 /**
  * Activity to register User for the App
  *
@@ -92,8 +94,9 @@ public class RegisterScreen extends ActionBarActivity {
                                 Toast.makeText(RegisterScreen.this, "Success", Toast.LENGTH_LONG).show();
                                 ParseObject Friends = new ParseObject("Friends");
                                 Friends.put("username", username);
-                                Friends.put("FriendsRequested", "");
-                                Friends.put("Friends", "");
+                                Friends.put("FriendRequestsReceived", new ArrayList<String>());
+                                Friends.put("Friends", new ArrayList<String>());
+                                Friends.put("FriendsRequestsSent", new ArrayList<String>());
                                 Friends.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, MainActivity.class);

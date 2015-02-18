@@ -22,7 +22,10 @@ import java.util.List;
 
 
 /**
- * Created by BhavaniJaladanki on 2/13/15.
+ * This class is used to Add Friends to each other
+ *
+ * @author Bhavani Jaladanki
+ * @version 1.0
  */
 public class AddFriends extends ActionBarActivity {
 
@@ -48,7 +51,7 @@ public class AddFriends extends ActionBarActivity {
             public void onClick(View v) {
 
                 //Get Strings
-                String username = mUserName.getEditableText().toString().trim();
+                final String username = mUserName.getEditableText().toString().trim();
 
                 if (username.length() == 0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
@@ -64,49 +67,93 @@ public class AddFriends extends ActionBarActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
-                } else {
+                } if (username.equals(ParseUser.getCurrentUser().getUsername())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+                    builder.setMessage("Friend Request Failed");
+                    builder.setTitle("Can't send Friend request to self");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else {
+
+                    final ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", username);
                     query.findInBackground(new FindCallback<ParseObject>() {
-                        public void done(List<ParseObject> objects, ParseException e) {
+                        public void done(final List<ParseObject> objects, ParseException e) {
                             if (e == null && objects.size() > 0) {
                                 ParseObject newUser = objects.get(0);
-                                String currentUserUsername = ParseUser.getCurrentUser().getUsername();
-
-                                newUser.put("FriendsRequested", currentUserUsername);
+                                final String currentUserUsername = ParseUser.getCurrentUser().getUsername();
+                                List list = newUser.getList("FriendRequestsReceived");
+                                if (!list.contains(currentUserUsername))
+                                    list.add(currentUserUsername);
+                                newUser.put("FriendRequestsReceived", list);
                                 newUser.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
                                         if (e == null) {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                                            builder.setMessage("Friend Request Sent!");
-                                            builder.setTitle("Friend Request Sent");
-                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                            ParseQuery<ParseObject> queryCurr = ParseQuery.getQuery("Friends");
+                                            queryCurr.whereEqualTo("username", currentUserUsername);
+                                            queryCurr.findInBackground(new FindCallback<ParseObject>() {
                                                 @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
+                                                public void done(List<ParseObject> parseObjects, ParseException e) {
+                                                    if (e == null && objects.size() > 0) {
+                                                        ParseObject currUser = parseObjects.get(0);
+                                                        List list = currUser.getList("FriendsRequestsSent");
+                                                        if (!list.contains(username))
+                                                            list.add(username);
+                                                        currUser.put("FriendsRequestsSent", list);
+                                                        currUser.saveInBackground(new SaveCallback() {
+
+
+
+                                                            @Override
+                                                            public void done(ParseException e) {
+                                                                if (e == null) {
+                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+                                                                    builder.setMessage("Friend Request Sent!");
+                                                                    builder.setTitle("Friend Request Sent");
+                                                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            dialog.dismiss();
+                                                                        }
+                                                                    });
+
+                                                                    AlertDialog dialog = builder.create();
+                                                                    dialog.show();
+                                                                } else {
+                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+                                                                    builder.setMessage(e.getMessage());
+                                                                    builder.setTitle("Friend Request Failed");
+                                                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            dialog.dismiss();
+                                                                        }
+                                                                    });
+
+                                                                    AlertDialog dialog = builder.create();
+                                                                    dialog.show();
+                                                                }
+                                                            }
+                                                        });
+
+
+                                                    }
                                                 }
                                             });
 
-                                            AlertDialog dialog = builder.create();
-                                            dialog.show();
                                         }
 
-                                        else {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                                            builder.setMessage(e.getMessage());
-                                            builder.setTitle("User does not exist");
-                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
 
-                                            AlertDialog dialog = builder.create();
-                                            dialog.show();
-                                        }
                                     }
                                 });
 
@@ -115,11 +162,10 @@ public class AddFriends extends ActionBarActivity {
 
 
 
-                            }
-                            else if (e != null) {
+                            } else if (e != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
                                 builder.setMessage(e.getMessage());
-                                builder.setTitle("User does not exist");
+                                builder.setTitle("User not found");
                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -129,9 +175,22 @@ public class AddFriends extends ActionBarActivity {
 
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
+                            } else {
+                                if (objects.size() == 0 && e == null) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+                                        builder.setMessage("User not found");
+                                        builder.setTitle("User does not exist");
+                                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                }
                             }
-
-
 
                         }
                     });
