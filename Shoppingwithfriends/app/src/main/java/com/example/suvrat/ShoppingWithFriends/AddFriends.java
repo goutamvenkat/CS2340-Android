@@ -18,6 +18,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,7 +49,7 @@ public class AddFriends extends ActionBarActivity {
             public void onClick(View v) {
 
                 //Get Strings
-                String username = mUserName.getEditableText().toString().trim();
+                final String username = mUserName.getEditableText().toString().trim();
 
                 if (username.length() == 0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
@@ -66,15 +67,51 @@ public class AddFriends extends ActionBarActivity {
 
                 } else {
 
+//                    ParseQuery<ParseUser> query = ParseUser.getQuery();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", username);
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (e == null && objects.size() > 0) {
-                                ParseObject newUser = objects.get(0);
-                                String currentUserUsername = ParseUser.getCurrentUser().getUsername();
+                    query.findInBackground(new FindCallback <ParseObject> () {
+                        public void done(List<ParseObject> object, ParseException e) {
 
-                                newUser.put("FriendsRequested", currentUserUsername);
+                            if (e == null && object.size() > 0) {
+                                ParseObject newUser = object.get(0);
+
+                                ParseUser currentUser = ParseUser.getCurrentUser();
+                                String currentUserUsername = currentUser.getUsername();
+                                ArrayList<String> requestingTo = (ArrayList<String>) currentUser.get("Requesting");
+                                ArrayList<String> receivingFrom = (ArrayList<String>) newUser.get("ReceivedRequest");
+                                if (requestingTo == null) {
+                                    requestingTo = new ArrayList<String>();
+                                }
+                                if (receivingFrom == null) {
+                                    receivingFrom = new ArrayList<String>();
+                                }
+
+
+                                String requesting = username;
+                                System.out.println("Requesting TO : " + requestingTo.toString());
+
+                                if (!requestingTo.contains(requesting)) {
+                                    requestingTo.add(requesting);
+                                    System.out.println("Requesting TO : " + requestingTo.toString());
+                                }
+
+                                if (!receivingFrom.contains(currentUserUsername)) {
+                                    receivingFrom.add(currentUserUsername);
+                                }
+                                currentUser.put("Requesting", requestingTo);
+                                newUser.put("ReceivedRequest", receivingFrom);
+                                currentUser.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            System.out.println("SUCCESS!");
+                                        }
+                                        else {
+                                            System.out.println("FAILURE!");
+                                        }
+                                    }
+                                });
                                 newUser.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
@@ -91,9 +128,7 @@ public class AddFriends extends ActionBarActivity {
 
                                             AlertDialog dialog = builder.create();
                                             dialog.show();
-                                        }
-
-                                        else {
+                                        } else {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
                                             builder.setMessage(e.getMessage());
                                             builder.setTitle("User does not exist");
@@ -111,12 +146,7 @@ public class AddFriends extends ActionBarActivity {
                                 });
 
 
-
-
-
-
-                            }
-                            else if (e != null) {
+                            } else if (e != null) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
                                 builder.setMessage(e.getMessage());
                                 builder.setTitle("User does not exist");
@@ -130,7 +160,6 @@ public class AddFriends extends ActionBarActivity {
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
                             }
-
 
 
                         }
