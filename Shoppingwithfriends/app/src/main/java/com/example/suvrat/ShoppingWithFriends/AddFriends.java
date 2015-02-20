@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -69,14 +70,17 @@ public class AddFriends extends ActionBarActivity {
                                         ParseObject currentUser = parseObjects.get(0);
                                         ArrayList<String> requestingTo = (ArrayList<String>) currentUser.get("FriendsRequested");
                                         ArrayList<String> receivingFrom = (ArrayList<String>) newUser.get("FriendsRequestsReceived");
-                                        if (!requestingTo.contains(username)) {
-                                            requestingTo.add(username);
-                                        }
-                                        if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername())) {
-                                            receivingFrom.add(ParseUser.getCurrentUser().getUsername());
-                                        }
+                                        if (requestingTo == null) requestingTo = new ArrayList<String>();
+                                        if (receivingFrom == null) receivingFrom = new ArrayList<String>();
+
+                                        if (!requestingTo.contains(username)) requestingTo.add(username);
+                                        if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername())) receivingFrom.add(ParseUser.getCurrentUser().getUsername());
+
                                         ArrayList<String> friendsOfUser = (ArrayList<String>) currentUser.get("Friends");
                                         ArrayList<String> friendsOfNewUser = (ArrayList<String>) newUser.get("Friends");
+
+                                        if (friendsOfNewUser == null) friendsOfNewUser = new ArrayList<String>();
+                                        if (friendsOfUser == null) friendsOfUser = new ArrayList<String>();
 
                                         if (!friendsOfUser.contains(username)) {
                                             friendsOfUser.add(username);
