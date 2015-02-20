@@ -2,6 +2,7 @@ package com.example.suvrat.ShoppingWithFriends;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -30,6 +31,7 @@ public class AddFriends extends ActionBarActivity {
 
     protected EditText mUserName;
     protected Button addFriendButton;
+    protected Button displayFriendButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,15 @@ public class AddFriends extends ActionBarActivity {
         //Initialize Components
         mUserName = (EditText) findViewById(R.id.FriendUsername);
         addFriendButton = (Button) findViewById(R.id.addFriendButton);
+        displayFriendButton = (Button) findViewById(R.id.displaybutton);
 
+        displayFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 Intent takelistfriends = new Intent(AddFriends.this, Acceptfriends.class);
+                 startActivity(takelistfriends);
+                }
+            });
         //Listen to Register Button Click
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override

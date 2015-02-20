@@ -31,5 +31,17 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display Friends"
+        android:id="@+id/displaybutton"
+        android:layout_below="@+id/addFriendButton"
+        android:layout_alignLeft="@+id/addFriendButton"
+        android:layout_alignStart="@+id/addFriendButton"
+        android:layout_marginTop="48dp"
+        android:layout_alignRight="@+id/addFriendButton"
+        android:layout_alignEnd="@+id/addFriendButton" />
+
 
 </RelativeLayout>

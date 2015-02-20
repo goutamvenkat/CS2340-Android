@@ -33,15 +33,15 @@ public class Acceptfriends extends ActionBarActivity{
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
 
-        final String currentUserObjectID = ParseUser.getCurrentUser().getObjectId();
-        query.whereEqualTo("objectID", currentUserObjectID);
+        final String currentUsername = ParseUser.getCurrentUser().getUsername();
+        query.whereEqualTo("username", currentUsername);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+                if (e == null && objects.size() > 0) {
                     ParseObject targetUser = objects.get(0);
-                    List<String> requestedFriends = targetUser.getList("ReceivedRequest");
-                    ArrayList<String> rfriends = (ArrayList) requestedFriends;
-                    ArrayAdapter<String> listAdapter  = new ArrayAdapter<>(Acceptfriends.this, R.layout.activity_acceptfriend1, rfriends);
+                    List<String> Friends = targetUser.getList("Friends");
+                    ArrayList<String> rfriends = (ArrayList) Friends;
+                    ArrayAdapter<String> listAdapter  = new ArrayAdapter<>(Acceptfriends.this, R.layout.activity_acceptfriend1, R.id.textView, rfriends);
                     friendList.setAdapter(listAdapter);
                 }
             }
