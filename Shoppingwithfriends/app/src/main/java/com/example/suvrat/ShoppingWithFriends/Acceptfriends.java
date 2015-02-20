@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -14,6 +16,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,26 +45,6 @@ public class Acceptfriends extends ActionBarActivity{
                     friendList.setAdapter(listAdapter);
                 }
             }
-            friendList.setOnItemClickListener(new OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                int position, long id) {
-
-                    // ListView Clicked item index
-                    int itemPosition     = position;
-
-                    // ListView Clicked item value
-                    String  itemValue    = (String) listView.getItemAtPosition(position);
-
-                    // Show Alert
-                    Toast.makeText(getApplicationContext(),
-                            "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                            .show();
-
-                }
-
-            });
         });
     }
 }

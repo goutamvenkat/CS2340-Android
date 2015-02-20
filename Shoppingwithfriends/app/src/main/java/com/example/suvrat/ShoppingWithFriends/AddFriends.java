@@ -52,113 +52,60 @@ public class AddFriends extends ActionBarActivity {
                 final String username = mUserName.getEditableText().toString().trim();
 
                 if (username.length() == 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                    builder.setMessage("Fields cannot be left empty");
-                    builder.setTitle("Friend Add Request Failed");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
+                    showMessage(null, "Fields cannot be left empty", "Friend Add Request Failed");
                 } else {
-
-//                    ParseQuery<ParseUser> query = ParseUser.getQuery();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", username);
                     query.findInBackground(new FindCallback <ParseObject> () {
                         public void done(List<ParseObject> object, ParseException e) {
 
                             if (e == null && object.size() > 0) {
-                                ParseObject newUser = object.get(0);
-
-                                ParseUser currentUser = ParseUser.getCurrentUser();
-                                String currentUserUsername = currentUser.getUsername();
-                                ArrayList<String> requestingTo = (ArrayList<String>) currentUser.get("Requesting");
-                                ArrayList<String> receivingFrom = (ArrayList<String>) newUser.get("ReceivedRequest");
-                                if (requestingTo == null) {
-                                    requestingTo = new ArrayList<String>();
-                                }
-                                if (receivingFrom == null) {
-                                    receivingFrom = new ArrayList<String>();
-                                }
-
-
-                                String requesting = username;
-                                System.out.println("Requesting TO : " + requestingTo.toString());
-
-                                if (!requestingTo.contains(requesting)) {
-                                    requestingTo.add(requesting);
-                                    System.out.println("Requesting TO : " + requestingTo.toString());
-                                }
-
-                                if (!receivingFrom.contains(currentUserUsername)) {
-                                    receivingFrom.add(currentUserUsername);
-                                }
-                                currentUser.put("Requesting", requestingTo);
-                                newUser.put("ReceivedRequest", receivingFrom);
-                                currentUser.saveInBackground(new SaveCallback() {
+                                final ParseObject newUser = object.get(0);
+                                ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Friends");
+                                currentUserQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+                                currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
                                     @Override
-                                    public void done(ParseException e) {
-                                        if (e == null) {
-                                            System.out.println("SUCCESS!");
+                                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                                        ParseObject currentUser = parseObjects.get(0);
+                                        ArrayList<String> requestingTo = (ArrayList<String>) currentUser.get("FriendsRequested");
+                                        ArrayList<String> receivingFrom = (ArrayList<String>) newUser.get("FriendsRequestsReceived");
+                                        if (!requestingTo.contains(username)) {
+                                            requestingTo.add(username);
                                         }
-                                        else {
-                                            System.out.println("FAILURE!");
+                                        if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername())) {
+                                            receivingFrom.add(ParseUser.getCurrentUser().getUsername());
                                         }
-                                    }
-                                });
-                                newUser.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e == null) {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                                            builder.setMessage("Friend Request Sent!");
-                                            builder.setTitle("Friend Request Sent");
-                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
+                                        ArrayList<String> friendsOfUser = (ArrayList<String>) currentUser.get("Friends");
+                                        ArrayList<String> friendsOfNewUser = (ArrayList<String>) newUser.get("Friends");
+
+                                        if (!friendsOfUser.contains(username)) {
+                                            friendsOfUser.add(username);
+                                        }
+                                        if (!friendsOfNewUser.contains(ParseUser.getCurrentUser().getUsername())) {
+                                            friendsOfNewUser.add(ParseUser.getCurrentUser().getUsername());
+                                        }
+
+                                        currentUser.put("Friends", friendsOfUser);
+                                        newUser.put("Friends", friendsOfNewUser);
+                                        currentUser.put("FriendsRequested", requestingTo);
+                                        newUser.put("FriendsRequestsReceived", receivingFrom);
+
+                                        currentUser.saveInBackground();
+
+                                        newUser.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    showMessage(e, "Friend Request Sent!", "Friend Request Sent!");
+                                                } else {
+                                                    showMessage(e, e.getMessage(), "User not Found!");
                                                 }
-                                            });
-
-                                            AlertDialog dialog = builder.create();
-                                            dialog.show();
-                                        } else {
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                                            builder.setMessage(e.getMessage());
-                                            builder.setTitle("User does not exist");
-                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-
-                                            AlertDialog dialog = builder.create();
-                                            dialog.show();
-                                        }
+                                            }
+                                        });
                                     }
                                 });
-
-
-                            } else if (e != null) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
-                                builder.setMessage(e.getMessage());
-                                builder.setTitle("User does not exist");
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
+                            } else {
+                                showMessage(e, "User not Found!", "User not found!");
                             }
 
 
@@ -171,7 +118,19 @@ public class AddFriends extends ActionBarActivity {
         });
 
     }
-
+    private void showMessage(ParseException e, String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
