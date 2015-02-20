@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -32,6 +33,7 @@ public class AddFriends extends ActionBarActivity {
     protected EditText mUserName;
     protected Button addFriendButton;
     protected Button displayFriendButton;
+    protected TextView userLoggedIn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,8 @@ public class AddFriends extends ActionBarActivity {
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
+        userLoggedIn = (TextView) findViewById(R.id.userLoggedIn);
+        userLoggedIn.setText("Hi " + ParseUser.getCurrentUser().getUsername() + "!");
 
         //Initialize Components
         mUserName = (EditText) findViewById(R.id.FriendUsername);
@@ -55,6 +59,17 @@ public class AddFriends extends ActionBarActivity {
                 }
             });
         //Listen to Register Button Click
+        Button logout = (Button) findViewById(R.id.logoutbutton);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+
+                Intent takeToLogin = new Intent(AddFriends.this, LoginActivity.class);
+                startActivity(takeToLogin);
+                finish();
+            }
+        });
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

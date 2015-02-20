@@ -19,9 +19,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Add Your Friends!"
         android:id="@+id/addFriendsText"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp" />
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/userLoggedIn"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -42,6 +42,26 @@
         android:layout_marginTop="48dp"
         android:layout_alignRight="@+id/addFriendButton"
         android:layout_alignEnd="@+id/addFriendButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/logoutbutton"
+        android:layout_below="@+id/displaybutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/userLoggedIn"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/logoutbutton"
+        android:layout_alignStart="@+id/logoutbutton"
+        android:layout_marginTop="40dp" />
 
 
 </RelativeLayout>

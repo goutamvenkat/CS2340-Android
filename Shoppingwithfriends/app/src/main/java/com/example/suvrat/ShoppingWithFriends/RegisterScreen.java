@@ -100,7 +100,7 @@ public class RegisterScreen extends ActionBarActivity {
 //                                Friends.put("Friends", Arrays.asList());
                                 Friends.saveInBackground();
 
-                                Intent takeMain = new Intent(RegisterScreen.this, MainActivity.class);
+                                Intent takeMain = new Intent(RegisterScreen.this, LoginActivity.class);
                                 startActivity(takeMain);
 
                             } else {
