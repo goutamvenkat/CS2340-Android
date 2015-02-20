@@ -55,13 +55,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=""
         android:id="@+id/userLoggedIn"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/logoutbutton"
-        android:layout_alignStart="@+id/logoutbutton"
-        android:layout_marginTop="40dp" />
+        android:layout_alignLeft="@+id/addFriendsText"
+        android:layout_alignStart="@+id/addFriendsText"
+        android:layout_marginTop="40dp"
+        android:autoText="false"
+        android:textIsSelectable="false" />
 
 
 </RelativeLayout>

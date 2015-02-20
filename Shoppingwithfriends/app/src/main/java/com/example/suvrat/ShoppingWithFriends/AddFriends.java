@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class AddFriends extends Activity {
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
         userLoggedIn = (TextView) findViewById(R.id.userLoggedIn);
         userLoggedIn.setText("Hi " + ParseUser.getCurrentUser().getUsername() + "!");
+        userLoggedIn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
         //Initialize Components
         mUserName = (EditText) findViewById(R.id.FriendUsername);
