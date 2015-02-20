@@ -1,5 +1,6 @@
 package com.example.suvrat.ShoppingWithFriends;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by BhavaniJaladanki on 2/13/15.
  */
-public class AddFriends extends ActionBarActivity {
+public class AddFriends extends Activity {
 
     protected EditText mUserName;
     protected Button addFriendButton;
@@ -79,7 +80,11 @@ public class AddFriends extends ActionBarActivity {
 
                 if (username.length() == 0) {
                     showMessage(null, "Fields cannot be left empty", "Friend Add Request Failed");
-                } else {
+                }
+                else if (username.equals(ParseUser.getCurrentUser().getUsername())) {
+                    showMessage(null, "Request Failed!", "Can't request yourself!");
+                }
+                else {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", username);
                     query.findInBackground(new FindCallback <ParseObject> () {

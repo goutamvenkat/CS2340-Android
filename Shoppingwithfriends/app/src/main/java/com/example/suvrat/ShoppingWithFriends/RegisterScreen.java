@@ -1,5 +1,6 @@
 package com.example.suvrat.ShoppingWithFriends;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +29,7 @@ import java.util.*;
  * @version 1.0
  */
 
-public class RegisterScreen extends ActionBarActivity {
+public class RegisterScreen extends Activity {
 
     protected EditText mUserName;
     protected EditText mEmail;

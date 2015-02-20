@@ -1,6 +1,7 @@
 package com.example.suvrat.ShoppingWithFriends;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by abhishek on 2/17/15.
  */
-public class Acceptfriends extends ActionBarActivity{
+public class Acceptfriends extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceptfriends);
