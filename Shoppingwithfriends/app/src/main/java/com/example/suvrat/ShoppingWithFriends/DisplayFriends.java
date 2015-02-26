@@ -4,6 +4,7 @@ package com.example.suvrat.ShoppingWithFriends;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.view.View;
@@ -47,9 +48,10 @@ public class DisplayFriends extends Activity{
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String selectedFriend = (String) parent.getItemAtPosition(position);
-                            DialogInterface.OnClickListener listener = clickListener(selectedFriend, Friends, listAdapter, targetUser);
+                            DialogInterface.OnClickListener infoOrDeleteListener = infoOrDeleteListener(selectedFriend, Friends, listAdapter, targetUser);
                             AlertDialog.Builder builder = new AlertDialog.Builder(DisplayFriends.this);
-                            builder.setMessage("Delete Friend?").setPositiveButton("Yes", listener).setNegativeButton("No", listener);
+                            builder.setMessage("Get Friend Info or Delete Friend?");
+                            builder.setPositiveButton("Get Info", infoOrDeleteListener).setNegativeButton("Delete", infoOrDeleteListener);
                             builder.show();
                         }
                     });
@@ -58,7 +60,7 @@ public class DisplayFriends extends Activity{
         });
     }
 
-    private DialogInterface.OnClickListener clickListener(final String selectedFriend, final List Friends,
+    private DialogInterface.OnClickListener deleteClickListener(final String selectedFriend, final List Friends,
                                                           final ArrayAdapter<String> listAdapter,
                                                           final ParseObject currentUser) {
         return new DialogInterface.OnClickListener() {
@@ -75,6 +77,31 @@ public class DisplayFriends extends Activity{
                        break;
                }
            }
+        };
+    }
+    private DialogInterface.OnClickListener infoOrDeleteListener(final String selectedFriend, final List Friends,
+                                                                final ArrayAdapter<String> listAdapter,
+                                                                final ParseObject currentUser) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        dialog.dismiss();
+                        Intent friendInfo = new Intent(DisplayFriends.this, FriendInfo.class);
+                        friendInfo.putExtra("friend", selectedFriend);
+                        startActivity(friendInfo);
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        dialog.dismiss();
+                        DialogInterface.OnClickListener deleteListener = deleteClickListener(selectedFriend, Friends, listAdapter, currentUser);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DisplayFriends.this);
+                        builder.setMessage("Are you sure?").
+                                setPositiveButton("Yes", deleteListener).setNegativeButton("No", deleteListener);
+                        builder.show();
+                        break;
+                }
+            }
         };
     }
     private void removeFriend(List Friends, String selectedFriend, final ParseObject currentUser) {

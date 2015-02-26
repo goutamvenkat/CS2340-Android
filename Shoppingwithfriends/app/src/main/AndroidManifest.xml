@@ -43,6 +43,10 @@
             android:name=".ListSentRequests"
             android:label="Sent Requests" >
         </activity>
+        <activity
+            android:name=".FriendInfo"
+            android:label="Friend Information" >
+        </activity>
     </application>
 
 </manifest>

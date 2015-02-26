@@ -9,5 +9,6 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="title_activity_list_friend_requests">ListFriendRequests</string>
     <string name="title_activity_list_sent_requests">ListSentRequests</string>
+    <string name="title_activity_friend_info">FriendInfo</string>
 
 </resources>

@@ -143,12 +143,14 @@ public class RequestFriends extends Activity {
                                                 } else {
                                                     showMessage(e.getMessage(), "User not Found!");
                                                 }
+                                                mUserName.setText("");
                                             }
                                         });
                                     }
                                 });
                             } else {
                                 showMessage("User not Found!", "User not found!");
+                                mUserName.setText("");
                             }
 
 
@@ -159,8 +161,6 @@ public class RequestFriends extends Activity {
 
             }
         });
-        mUserName.setText("");
-
     }
     protected void showMessage(String message, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(RequestFriends.this);
