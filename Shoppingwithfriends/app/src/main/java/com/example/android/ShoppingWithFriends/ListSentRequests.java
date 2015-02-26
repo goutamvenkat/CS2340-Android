@@ -1,12 +1,8 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -17,7 +13,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,18 +44,5 @@ public class ListSentRequests extends Activity {
                 }
             }
         });
-    }
-    protected void showMessage(String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ListSentRequests.this);
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 }

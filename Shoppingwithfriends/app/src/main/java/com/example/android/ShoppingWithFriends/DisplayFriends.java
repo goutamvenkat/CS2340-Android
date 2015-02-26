@@ -1,4 +1,4 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 
 import android.app.Activity;
@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Basically displays the friends in a list view 
  * Created by Goutam V. on 2/17/15.
  */
 public class DisplayFriends extends Activity{

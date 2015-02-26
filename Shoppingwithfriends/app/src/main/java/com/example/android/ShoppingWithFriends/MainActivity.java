@@ -1,22 +1,18 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
 
 /**
- * This class is a dummy logged in screen
+ * This class is the main page for the application
  *
  * @author Goutam Venkat
  * @version 1.0

@@ -1,11 +1,8 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +16,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -64,7 +60,7 @@ public class RegisterScreen extends Activity {
                 String email = mEmail.getText().toString().trim();
 
                 if (username.length() == 0 || password.length() == 0 || email.length() == 0) {
-                    showMessage("Fields cannot be left empty", "Registration Failed");
+                    Utility.showMessage("Fields cannot be left empty", "Registration Failed", RegisterScreen.this);
                 } else {
                     //Initialize User
                     final ParseUser user = new ParseUser();
@@ -91,7 +87,7 @@ public class RegisterScreen extends Activity {
                                 startActivity(takeMain);
 
                             } else {
-                                showMessage(e.getMessage(), "Registration Failed");
+                                Utility.showMessage(e.getMessage(), "Registration Failed", RegisterScreen.this);
                             }
                         }
                     });
@@ -124,18 +120,5 @@ public class RegisterScreen extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    protected void showMessage(String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterScreen.this);
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 }

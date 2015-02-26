@@ -1,8 +1,6 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -70,7 +68,7 @@ public class LoginActivity extends Activity {
 
 
                         } else {
-                            showMessage(e.getMessage(), "Login Failed!");
+                            Utility.showMessage(e.getMessage(), "Login Failed!", LoginActivity.this);
                         }
                     }
                 });
@@ -92,19 +90,6 @@ public class LoginActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
-    }
-    protected void showMessage(String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

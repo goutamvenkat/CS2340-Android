@@ -1,17 +1,13 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -93,10 +89,10 @@ public class RequestFriends extends Activity {
                 final String username = mUserName.getEditableText().toString().trim();
 
                 if (username.length() == 0) {
-                    showMessage("Fields cannot be left empty", "Friend Add Request Failed");
+                    Utility.showMessage("Fields cannot be left empty", "Friend Add Request Failed", RequestFriends.this);
                 }
                 else if (username.equals(ParseUser.getCurrentUser().getUsername())) {
-                    showMessage("Request Failed!", "Can't request yourself!");
+                    Utility.showMessage("Request Failed!", "Can't request yourself!", RequestFriends.this);
                 }
                 else {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
@@ -135,13 +131,13 @@ public class RequestFriends extends Activity {
                                             public void done(ParseException e) {
                                                 if (e == null) {
                                                     if (IfAlreadyFriend) {
-                                                        showMessage("Already Friend or requested", "No request");
+                                                        Utility.showMessage("Already Friend or requested", "No request", RequestFriends.this);
                                                     }
                                                     else {
-                                                        showMessage("Friend Request Sent!", "Friend Request Sent!");
+                                                        Utility.showMessage("Friend Request Sent!", "Friend Request Sent!", RequestFriends.this);
                                                     }
                                                 } else {
-                                                    showMessage(e.getMessage(), "User not Found!");
+                                                    Utility.showMessage(e.getMessage(), "User not Found!", RequestFriends.this);
                                                 }
                                                 mUserName.setText("");
                                             }
@@ -149,31 +145,14 @@ public class RequestFriends extends Activity {
                                     }
                                 });
                             } else {
-                                showMessage("User not Found!", "User not found!");
+                                Utility.showMessage("User not Found!", "User not found!", RequestFriends.this);
                                 mUserName.setText("");
                             }
-
-
                         }
                     });
                 }
-
-
             }
         });
-    }
-    protected void showMessage(String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RequestFriends.this);
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,8 +175,4 @@ public class RequestFriends extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 }

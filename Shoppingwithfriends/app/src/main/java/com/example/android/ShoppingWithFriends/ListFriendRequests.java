@@ -1,4 +1,4 @@
-package com.example.suvrat.ShoppingWithFriends;
+package com.example.android.ShoppingWithFriends;
 
 
 import android.app.Activity;
@@ -16,8 +16,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.widget.ArrayAdapter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,26 +72,18 @@ public class ListFriendRequests extends Activity {
                         }
                     });
                 } else {
-                    showMessage(e.getMessage(), "Can't get friend requests!");
+                    Utility.showMessage(e.getMessage(), "Can't get friend requests!", ListFriendRequests.this);
                 }
             }
         });
-
-
     }
-    protected void showMessage(String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ListFriendRequests.this);
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+    /**
+    * addFriend - private helper method
+    * when addFriend is selected on alert dialog the list is changed for each user
+    * @param ParseObject currentuser
+    * @param List FriendRequests
+    * @param String friendToBeAdded
+    */
     private void addFriend(final ParseObject currentuser, List FriendRequests, String friendToBeAdded) {
         FriendRequests.remove(friendToBeAdded);
         currentuser.put("FriendsRequestsReceived", FriendRequests);
