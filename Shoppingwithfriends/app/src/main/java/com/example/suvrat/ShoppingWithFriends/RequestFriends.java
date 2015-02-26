@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,42 +21,55 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 /**
- * Created by BhavaniJaladanki on 2/13/15.
- */
-public class AddFriends extends Activity {
+* Created by Goutam Venkat on 2/19/15
+*/
+public class RequestFriends extends Activity {
 
     protected EditText mUserName;
-    protected Button addFriendButton;
+    protected Button requestFriendButton;
     protected Button displayFriendButton;
-    protected TextView userLoggedIn;
+    protected Button requests;
+    protected Button sent_requestsButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addfriends);
+        setContentView(R.layout.activity_requestfriends);
 
         //Initilialize Parse
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
-        userLoggedIn = (TextView) findViewById(R.id.userLoggedIn);
-        userLoggedIn.setText("Hi " + ParseUser.getCurrentUser().getUsername() + "!");
-        userLoggedIn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
         //Initialize Components
         mUserName = (EditText) findViewById(R.id.FriendUsername);
-        addFriendButton = (Button) findViewById(R.id.addFriendButton);
+        requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
         displayFriendButton = (Button) findViewById(R.id.displaybutton);
+
+        requests = (Button) findViewById(R.id.friendRequestsReceived);
+        sent_requestsButton = (Button) findViewById(R.id.sent_requests);
+        sent_requestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeToSentRequests = new Intent(RequestFriends.this, ListSentRequests.class);
+                startActivity(takeToSentRequests);
+            }
+        });
+        requests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takeToFriendRequests = new Intent(RequestFriends.this, ListFriendRequests.class);
+                startActivity(takeToFriendRequests);
+            }
+        });
 
         displayFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 Intent takelistfriends = new Intent(AddFriends.this, Acceptfriends.class);
+                 Intent takelistfriends = new Intent(RequestFriends.this, DisplayFriends.class);
                  startActivity(takelistfriends);
                 }
             });
@@ -68,12 +80,12 @@ public class AddFriends extends Activity {
             public void onClick(View v) {
                 ParseUser.logOut();
 
-                Intent takeToLogin = new Intent(AddFriends.this, LoginActivity.class);
+                Intent takeToLogin = new Intent(RequestFriends.this, LoginActivity.class);
                 startActivity(takeToLogin);
                 finish();
             }
         });
-        addFriendButton.setOnClickListener(new View.OnClickListener() {
+        requestFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -81,10 +93,10 @@ public class AddFriends extends Activity {
                 final String username = mUserName.getEditableText().toString().trim();
 
                 if (username.length() == 0) {
-                    showMessage(null, "Fields cannot be left empty", "Friend Add Request Failed");
+                    showMessage("Fields cannot be left empty", "Friend Add Request Failed");
                 }
                 else if (username.equals(ParseUser.getCurrentUser().getUsername())) {
-                    showMessage(null, "Request Failed!", "Can't request yourself!");
+                    showMessage("Request Failed!", "Can't request yourself!");
                 }
                 else {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
@@ -100,29 +112,19 @@ public class AddFriends extends Activity {
                                     @Override
                                     public void done(List<ParseObject> parseObjects, ParseException e) {
                                         ParseObject currentUser = parseObjects.get(0);
-                                        ArrayList<String> requestingTo = (ArrayList<String>) currentUser.get("FriendsRequested");
-                                        ArrayList<String> receivingFrom = (ArrayList<String>) newUser.get("FriendsRequestsReceived");
-                                        if (requestingTo == null) requestingTo = new ArrayList<String>();
-                                        if (receivingFrom == null) receivingFrom = new ArrayList<String>();
-
-                                        if (!requestingTo.contains(username)) requestingTo.add(username);
-                                        if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername())) receivingFrom.add(ParseUser.getCurrentUser().getUsername());
-
-                                        ArrayList<String> friendsOfUser = (ArrayList<String>) currentUser.get("Friends");
-                                        ArrayList<String> friendsOfNewUser = (ArrayList<String>) newUser.get("Friends");
-
-                                        if (friendsOfNewUser == null) friendsOfNewUser = new ArrayList<String>();
-                                        if (friendsOfUser == null) friendsOfUser = new ArrayList<String>();
-
-                                        if (!friendsOfUser.contains(username)) {
-                                            friendsOfUser.add(username);
+                                        List requestingTo = currentUser.getList("FriendsRequested");
+                                        List receivingFrom = newUser.getList("FriendsRequestsReceived");
+                                        List friendsOfCurrentUser = currentUser.getList("Friends");
+                                        // If not friends already, then add to the respective columns
+                                        boolean temp = true;
+                                        if (!friendsOfCurrentUser.contains(username)) {
+                                            temp = false;
+                                            if (!requestingTo.contains(username))
+                                                requestingTo.add(username);
+                                            if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername()))
+                                                receivingFrom.add(ParseUser.getCurrentUser().getUsername());
                                         }
-                                        if (!friendsOfNewUser.contains(ParseUser.getCurrentUser().getUsername())) {
-                                            friendsOfNewUser.add(ParseUser.getCurrentUser().getUsername());
-                                        }
-
-                                        currentUser.put("Friends", friendsOfUser);
-                                        newUser.put("Friends", friendsOfNewUser);
+                                        final boolean IfAlreadyFriend = temp;
                                         currentUser.put("FriendsRequested", requestingTo);
                                         newUser.put("FriendsRequestsReceived", receivingFrom);
 
@@ -132,16 +134,21 @@ public class AddFriends extends Activity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
-                                                    showMessage(e, "Friend Request Sent!", "Friend Request Sent!");
+                                                    if (IfAlreadyFriend) {
+                                                        showMessage("Already Friend or requested", "No request");
+                                                    }
+                                                    else {
+                                                        showMessage("Friend Request Sent!", "Friend Request Sent!");
+                                                    }
                                                 } else {
-                                                    showMessage(e, e.getMessage(), "User not Found!");
+                                                    showMessage(e.getMessage(), "User not Found!");
                                                 }
                                             }
                                         });
                                     }
                                 });
                             } else {
-                                showMessage(e, "User not Found!", "User not found!");
+                                showMessage("User not Found!", "User not found!");
                             }
 
 
@@ -152,10 +159,11 @@ public class AddFriends extends Activity {
 
             }
         });
+        mUserName.setText("");
 
     }
-    private void showMessage(ParseException e, String message, String title) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddFriends.this);
+    protected void showMessage(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RequestFriends.this);
         builder.setMessage(message);
         builder.setTitle(title);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

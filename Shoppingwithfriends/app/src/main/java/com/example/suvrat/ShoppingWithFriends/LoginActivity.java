@@ -64,24 +64,13 @@ public class LoginActivity extends Activity {
 
                             Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
 
-                            Intent takeHome = new Intent(LoginActivity.this, AddFriends.class);
+                            Intent takeHome = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(takeHome);
 
 
 
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(e.getMessage());
-                            builder.setTitle("Login Failed");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
+                            showMessage(e.getMessage(), "Login Failed!");
                         }
                     }
                 });
@@ -104,7 +93,19 @@ public class LoginActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
-
+    protected void showMessage(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

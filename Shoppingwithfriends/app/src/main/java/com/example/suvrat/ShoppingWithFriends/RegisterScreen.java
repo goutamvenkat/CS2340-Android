@@ -64,22 +64,8 @@ public class RegisterScreen extends Activity {
                 String email = mEmail.getText().toString().trim();
 
                 if (username.length() == 0 || password.length() == 0 || email.length() == 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterScreen.this);
-                    builder.setMessage("Fields cannot be left empty");
-                    builder.setTitle("Registration Failed");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
+                    showMessage("Fields cannot be left empty", "Registration Failed");
                 } else {
-
-
                     //Initialize User
                     final ParseUser user = new ParseUser();
                     user.setUsername(username);
@@ -96,30 +82,17 @@ public class RegisterScreen extends Activity {
                                 Toast.makeText(RegisterScreen.this, "Success", Toast.LENGTH_LONG).show();
                                 ParseObject Friends = new ParseObject("Friends");
                                 Friends.put("username", username);
-//                                Friends.put("FriendsRequested", Arrays.asList());
-//                                Friends.put("FriendsRequestsReceived", Arrays.asList());
-//                                Friends.put("Friends", Arrays.asList());
+                                Friends.put("FriendsRequested", new ArrayList<String>());
+                                Friends.put("Friends", new ArrayList<String>());
+                                Friends.put("FriendsRequestsReceived", new ArrayList<String>());
                                 Friends.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, LoginActivity.class);
                                 startActivity(takeMain);
 
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterScreen.this);
-                                builder.setMessage(e.getMessage());
-                                builder.setTitle("Registration Failed");
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
-
+                                showMessage(e.getMessage(), "Registration Failed");
                             }
-
                         }
                     });
                 }
@@ -151,5 +124,18 @@ public class RegisterScreen extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    protected void showMessage(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterScreen.this);
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

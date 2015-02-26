@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/s">
 
 
     <EditText
@@ -26,31 +27,29 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Friend"
-        android:id="@+id/addFriendButton"
+        android:text="Request Friend"
+        android:id="@+id/requestFriendButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Display Friends"
+        android:text="Friends"
         android:id="@+id/displaybutton"
-        android:layout_below="@+id/addFriendButton"
-        android:layout_alignLeft="@+id/addFriendButton"
-        android:layout_alignStart="@+id/addFriendButton"
-        android:layout_marginTop="48dp"
-        android:layout_alignRight="@+id/addFriendButton"
-        android:layout_alignEnd="@+id/addFriendButton" />
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/userLoggedIn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
         android:id="@+id/logoutbutton"
-        android:layout_below="@+id/displaybutton"
+        android:layout_below="@+id/requestFriendButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="71dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,5 +64,22 @@
         android:autoText="false"
         android:textIsSelectable="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friend Requests"
+        android:id="@+id/friendRequestsReceived"
+        android:layout_above="@+id/addFriendsText"
+        android:layout_toEndOf="@+id/sent_requests"
+        android:layout_toRightOf="@+id/sent_requests" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sent Requests"
+        android:id="@+id/sent_requests"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/userLoggedIn"
+        android:layout_toEndOf="@+id/userLoggedIn" />
 
 </RelativeLayout>
