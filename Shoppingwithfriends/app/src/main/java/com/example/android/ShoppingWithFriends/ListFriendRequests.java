@@ -53,8 +53,7 @@ public class ListFriendRequests extends Activity {
                                     switch (which){
                                         case DialogInterface.BUTTON_POSITIVE:
                                             addFriend(targetUser, FriendRequests, friendToBeAdded);
-                                            List fr = FriendRequests;
-                                            fr.remove(friendToBeAdded);
+                                            FriendRequests.remove(friendToBeAdded);
                                             listAdapter.notifyDataSetChanged();
                                             dialog.dismiss();
                                             break;
