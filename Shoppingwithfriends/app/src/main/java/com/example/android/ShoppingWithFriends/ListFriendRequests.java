@@ -87,9 +87,17 @@ public class ListFriendRequests extends Activity {
     private void addFriend(final ParseObject currentuser, List FriendRequests, String friendToBeAdded) {
         FriendRequests.remove(friendToBeAdded);
         currentuser.put("FriendsRequestsReceived", FriendRequests);
+
+        // removing the other guy from this list in case the current requests him as well
+        List friendsRequested = currentuser.getList("FriendsRequested");
+        friendsRequested.remove(friendToBeAdded);
+        currentuser.put("FriendsRequested", friendsRequested);
+        //
+
         List friendsOfUser = currentuser.getList("Friends");
         friendsOfUser.add(friendToBeAdded);
         currentuser.put("Friends", friendsOfUser);
+        // save back to database
         currentuser.saveInBackground();
 
 
@@ -104,9 +112,16 @@ public class ListFriendRequests extends Activity {
                     requestsSent.remove(currentuser.get("username"));
                     otherUser.put("FriendsRequested", requestsSent);
 
+                    //In case the current user requested the user to be added already
+                    List receivedRequestsToOtherUser = otherUser.getList("FriendsRequestsReceived");
+                    receivedRequestsToOtherUser.remove(currentuser.get("username"));
+                    otherUser.put("FriendsRequestsReceived", receivedRequestsToOtherUser);
+
                     List friendsOfOtherUser = otherUser.getList("Friends");
                     friendsOfOtherUser.add(currentuser.get("username"));
                     otherUser.saveInBackground();
+                } else {
+                    Utility.showMessage(e.getMessage(), "Something went wrong!", ListFriendRequests.this);
                 }
             }
         });

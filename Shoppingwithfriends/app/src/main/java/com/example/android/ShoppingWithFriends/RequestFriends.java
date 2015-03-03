@@ -112,15 +112,19 @@ public class RequestFriends extends Activity {
                                         List receivingFrom = newUser.getList("FriendsRequestsReceived");
                                         List friendsOfCurrentUser = currentUser.getList("Friends");
                                         // If not friends already, then add to the respective columns
-                                        boolean temp = true;
+                                        boolean already_friend = true;
+                                        boolean already_requested = true;
                                         if (!friendsOfCurrentUser.contains(username)) {
-                                            temp = false;
-                                            if (!requestingTo.contains(username))
+                                            already_friend = false;
+                                            if (!requestingTo.contains(username)) {
                                                 requestingTo.add(username);
+                                                already_requested = false;
+                                            }
                                             if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername()))
                                                 receivingFrom.add(ParseUser.getCurrentUser().getUsername());
                                         }
-                                        final boolean IfAlreadyFriend = temp;
+                                        final boolean AlreadyFriend = already_friend;
+                                        final boolean AlreadyRequested = already_requested;
                                         currentUser.put("FriendsRequested", requestingTo);
                                         newUser.put("FriendsRequestsReceived", receivingFrom);
 
@@ -130,10 +134,11 @@ public class RequestFriends extends Activity {
                                             @Override
                                             public void done(ParseException e) {
                                                 if (e == null) {
-                                                    if (IfAlreadyFriend) {
-                                                        Utility.showMessage("Already Friend or requested", "No request", RequestFriends.this);
-                                                    }
-                                                    else {
+                                                    if (AlreadyFriend) {
+                                                        Utility.showMessage("Already a Friend!", "No request", RequestFriends.this);
+                                                    } else if (AlreadyRequested) {
+                                                        Utility.showMessage("Already Requested!", "No request", RequestFriends.this);
+                                                    } else {
                                                         Utility.showMessage("Friend Request Sent!", "Friend Request Sent!", RequestFriends.this);
                                                     }
                                                 } else {
