@@ -11,23 +11,23 @@
         android:label="@string/app_name"
         android:theme="@style/DarkTheme" >
         <activity
-            android:name="com.example.android.ShoppingWithFriends.RegisterScreen"
+            android:name=".RegisterScreen"
             android:label="Registration" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.DisplayFriends"
+            android:name=".DisplayFriends"
             android:label="Friends" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.RequestFriends"
+            android:name=".RequestFriends"
             android:label="Request Friends" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.MainActivity"
+            android:name=".MainActivity"
             android:label="Home Page" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,16 +36,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.ListFriendRequests"
+            android:name=".ListFriendRequests"
             android:label="Friend Requests" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.ListSentRequests"
+            android:name=".ListSentRequests"
             android:label="Sent Requests" >
         </activity>
         <activity
-            android:name="com.example.android.ShoppingWithFriends.FriendInfo"
+            android:name=".FriendInfo"
             android:label="Friend Information" >
+        </activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password" >
         </activity>
     </application>
 
