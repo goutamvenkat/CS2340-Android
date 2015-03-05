@@ -37,5 +37,15 @@
         android:text="Register"
         android:id="@+id/LoginRegister"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Forgot password?"
+        android:id="@+id/forgotPasswordText"
+        android:onClick="forgotPassword"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true" />
+
 
 </LinearLayout>
