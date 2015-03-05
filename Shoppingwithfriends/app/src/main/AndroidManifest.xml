@@ -47,6 +47,10 @@
             android:name="com.example.android.ShoppingWithFriends.FriendInfo"
             android:label="Friend Information" >
         </activity>
+        <activity
+            android:name="com.example.android.ShoppingWithFriends.RequestItem"
+            android:label="Request Item">
+        </activity>
     </application>
 
 </manifest>

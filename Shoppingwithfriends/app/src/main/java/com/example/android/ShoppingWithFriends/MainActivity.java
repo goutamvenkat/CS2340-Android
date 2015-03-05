@@ -19,6 +19,7 @@ import com.parse.ParseUser;
  */
 public class MainActivity extends Activity {
     private Button addFriends;
+    private Button requestItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,15 @@ public class MainActivity extends Activity {
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(MainActivity.this, RequestFriends.class));
+            }
+        });
+        requestItem = (Button) findViewById(R.id.requestItemButton);
+        requestItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RequestItem.class));
             }
         });
 
