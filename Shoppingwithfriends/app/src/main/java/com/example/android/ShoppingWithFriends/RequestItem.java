@@ -18,7 +18,10 @@ import com.parse.ParseUser;
 import java.util.List;
 
 /**
- * Created by BhavaniJaladanki on 3/4/15.
+ * Handles Requesting items by user
+ *
+ * @author bj
+ * @version 2.0
  */
 public class RequestItem extends Activity {
 
@@ -44,8 +47,12 @@ public class RequestItem extends Activity {
         requestItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Extract Data from fields
                 final String nameOfItem = itemName.getEditableText().toString().trim();
                 final String strPrice = itemPrice.getText().toString();
+
+                //Empty case handled
                 if (nameOfItem.length() == 0 || strPrice.length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Item Request Failed", RequestItem.this);
                 }
@@ -56,9 +63,12 @@ public class RequestItem extends Activity {
                     currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
+                            // Find the corresponding user
                             ParseObject currentUser = parseObjects.get(0);
                             List<String> itemsName = currentUser.getList("MyItems");
                             List<Integer> itemsPrice = currentUser.getList("MyItemPrices");
+
+                            //Check for duplicates
                             if (itemsName.contains(nameOfItem)) {
                                 Utility.showMessage("Duplicate Item!", "Failed!", RequestItem.this);
                             } else {
