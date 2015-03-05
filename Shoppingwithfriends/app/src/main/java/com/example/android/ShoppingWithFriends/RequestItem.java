@@ -45,13 +45,13 @@ public class RequestItem extends Activity {
             @Override
             public void onClick(View v) {
                 final String nameOfItem = itemName.getEditableText().toString().trim();
-                final Integer price = Integer.parseInt(itemPrice.getText().toString());
-
-                if (nameOfItem == null || null == price) {
+                final String strPrice = itemPrice.getText().toString();
+                if (nameOfItem.length() == 0 || strPrice.length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Item Request Failed", RequestItem.this);
                 }
-
-                ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Items");
+                else {
+                    final Integer price = Integer.parseInt(strPrice);
+                    ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Items");
                     currentUserQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
                     currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
@@ -59,14 +59,20 @@ public class RequestItem extends Activity {
                             ParseObject currentUser = parseObjects.get(0);
                             List<String> itemsName = currentUser.getList("MyItems");
                             List<Integer> itemsPrice = currentUser.getList("MyItemPrices");
-                            itemsName.add(nameOfItem);
-                            itemsPrice.add(price);
-                            currentUser.put("MyItems", itemsName);
-                            currentUser.put("MyItemPrices", itemsPrice);
-                            currentUser.saveInBackground();
+                            if (itemsName.contains(nameOfItem)) {
+                                Utility.showMessage("Duplicate Item!", "Failed!", RequestItem.this);
+                            } else {
+                                itemsName.add(nameOfItem);
+                                itemsPrice.add(price);
+                                currentUser.put("MyItems", itemsName);
+                                currentUser.put("MyItemPrices", itemsPrice);
+                                currentUser.saveInBackground();
+                                Utility.showMessage("Item Registered", "Success!", RequestItem.this);
+                            }
 
                         }
                     });
+                }
             }
         });
     }
