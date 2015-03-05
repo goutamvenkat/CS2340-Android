@@ -35,6 +35,9 @@ public class MainActivity extends Activity {
                     ParseUser.logOut();
 
                     Intent takeToLogin = new Intent(MainActivity.this, LoginActivity.class);
+                    takeToLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    takeToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    takeToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(takeToLogin);
                     finish();
 

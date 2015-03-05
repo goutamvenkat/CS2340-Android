@@ -77,6 +77,9 @@ public class RequestFriends extends Activity {
                 ParseUser.logOut();
 
                 Intent takeToLogin = new Intent(RequestFriends.this, LoginActivity.class);
+                takeToLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                takeToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                takeToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(takeToLogin);
                 finish();
             }
