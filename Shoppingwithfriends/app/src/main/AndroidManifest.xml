@@ -48,13 +48,8 @@
             android:label="Friend Information" >
         </activity>
         <activity
-<<<<<<< HEAD
             android:name="com.example.android.ShoppingWithFriends.RequestItem"
             android:label="Request Item">
-=======
-            android:name=".ForgotPasswordActivity"
-            android:label="Forgot Password" >
->>>>>>> 0d6724c384a48ac664a9964e9841f15314f1a0e0
         </activity>
     </application>
 
