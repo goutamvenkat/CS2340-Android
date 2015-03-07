@@ -15,6 +15,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -65,20 +68,24 @@ public class RequestItem extends Activity {
                         public void done(List<ParseObject> parseObjects, ParseException e) {
                             // Find the corresponding user
                             ParseObject currentUser = parseObjects.get(0);
-                            List<String> itemsName = currentUser.getList("MyItems");
-                            List<Integer> itemsPrice = currentUser.getList("MyItemPrices");
-
                             //Check for duplicates
-                            if (itemsName.contains(nameOfItem)) {
-                                Utility.showMessage("Duplicate Item!", "Failed!", RequestItem.this);
-                            } else {
-                                itemsName.add(nameOfItem);
-                                itemsPrice.add(price);
-                                currentUser.put("MyItems", itemsName);
-                                currentUser.put("MyItemPrices", itemsPrice);
+                            try{
+                                JSONObject myItems = currentUser.getJSONObject("MyItems");
+                                if (!myItems.isNull(nameOfItem)) {
+                                    Utility.showMessage("Replaced threshold", "Duplicate Item", RequestItem.this);
+                                } else {
+                                    Utility.showMessage("Item Registered", "Success!", RequestItem.this);
+                                }
+                                myItems.put(nameOfItem, price);
+                                currentUser.put("myItems", myItems);
                                 currentUser.saveInBackground();
-                                Utility.showMessage("Item Registered", "Success!", RequestItem.this);
+                                itemName.setText("");
+                                itemPrice.setText("");
+
+                            } catch (JSONException ex) {
+                                Utility.showMessage(ex.getMessage(), "Problem with JSON", RequestItem.this);
                             }
+
 
                         }
                     });

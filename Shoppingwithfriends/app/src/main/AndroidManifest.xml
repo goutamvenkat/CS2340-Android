@@ -36,6 +36,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password" >
+        </activity>
+        <activity
             android:name=".ListFriendRequests"
             android:label="Friend Requests" >
         </activity>
