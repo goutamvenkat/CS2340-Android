@@ -58,6 +58,7 @@ public class RegisterScreen extends Activity {
                 //Get Strings
                 final String username = mUserName.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
+
                 String email = mEmail.getText().toString().trim();
 
                 if (username.length() == 0 || password.length() == 0 || email.length() == 0) {
@@ -83,6 +84,12 @@ public class RegisterScreen extends Activity {
                                 Friends.put("Friends", new ArrayList<String>());
                                 Friends.put("FriendsRequestsReceived", new ArrayList<String>());
                                 Friends.saveInBackground();
+
+                                ParseObject Items = new ParseObject("Items");
+                                Items.put("username", username);
+                                Items.put("MyItems", new ArrayList<String>());
+                                Items.put("MyItemPrices", new ArrayList<Integer>());
+                                Items.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, LoginActivity.class);
                                 startActivity(takeMain);

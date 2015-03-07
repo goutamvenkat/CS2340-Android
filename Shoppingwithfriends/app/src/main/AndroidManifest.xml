@@ -48,8 +48,8 @@
             android:label="Friend Information" >
         </activity>
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:label="Forgot Password" >
+            android:name="com.example.android.ShoppingWithFriends.RequestItem"
+            android:label="Request Item">
         </activity>
     </application>
 
