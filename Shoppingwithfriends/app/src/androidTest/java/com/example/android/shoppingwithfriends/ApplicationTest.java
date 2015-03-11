@@ -1,4 +1,4 @@
-package com.example.android.ShoppingWithFriends;
+package com.example.android.shoppingwithfriends;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

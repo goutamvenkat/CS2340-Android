@@ -4,16 +4,6 @@
     android:id="@+id/s">
 
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Username"
-        android:ems="10"
-        android:id="@+id/FriendUsername"
-        android:layout_marginTop="173dp"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,5 +71,18 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/userLoggedIn"
         android:layout_toEndOf="@+id/userLoggedIn" />
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="username"
+        android:id="@+id/autoCompleteTextView"
+        android:singleLine="true"
+        android:layout_above="@+id/requestFriendButton"
+        android:layout_alignLeft="@+id/addFriendsText"
+        android:layout_alignStart="@+id/addFriendsText"
+        android:layout_marginBottom="32dp"
+        android:layout_alignRight="@+id/addFriendsText"
+        android:layout_alignEnd="@+id/addFriendsText" />
 
 </RelativeLayout>

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,6 +20,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,11 +29,12 @@ import java.util.List;
 */
 public class RequestFriends extends Activity {
 
-    protected EditText mUserName;
     protected Button requestFriendButton;
     protected Button displayFriendButton;
     protected Button requests;
     protected Button sent_requestsButton;
+    private AutoCompleteTextView autoComplete;
+    private String fromAutoComplete;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,6 @@ public class RequestFriends extends Activity {
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
 
         //Initialize Components
-        mUserName = (EditText) findViewById(R.id.FriendUsername);
         requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
         displayFriendButton = (Button) findViewById(R.id.displaybutton);
 
@@ -54,6 +58,9 @@ public class RequestFriends extends Activity {
                 startActivity(takeToSentRequests);
             }
         });
+
+        autoComplete = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        doAutoComplete();
         requests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +96,8 @@ public class RequestFriends extends Activity {
             public void onClick(View v) {
 
                 //Get Strings
-                final String username = mUserName.getEditableText().toString().trim();
-
+//                final String username = mUserName.getEditableText().toString().trim();
+                final String username = fromAutoComplete;
                 if (username.length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Friend Add Request Failed", RequestFriends.this);
                 }
@@ -147,14 +154,14 @@ public class RequestFriends extends Activity {
                                                 } else {
                                                     Utility.showMessage(e.getMessage(), "User not Found!", RequestFriends.this);
                                                 }
-                                                mUserName.setText("");
+                                                autoComplete.setText("");
                                             }
                                         });
                                     }
                                 });
                             } else {
                                 Utility.showMessage("User not Found!", "User not found!", RequestFriends.this);
-                                mUserName.setText("");
+                                autoComplete.setText("");
                             }
                         }
                     });
@@ -162,6 +169,31 @@ public class RequestFriends extends Activity {
             }
         });
     }
+
+    private void doAutoComplete() {
+        final List<String> users = new ArrayList<String>();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> parseUsers, ParseException e) {
+                if (e == null && parseUsers.size() > 0) {
+                    for (ParseUser user : parseUsers) {
+                        users.add(user.getUsername());
+                    }
+                }
+            }
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textView3, users);
+        autoComplete.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                fromAutoComplete = (String) adapterView.getItemAtPosition(position);
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
