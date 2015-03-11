@@ -11,5 +11,7 @@
     <string name="title_activity_list_sent_requests">ListSentRequests</string>
     <string name="title_activity_friend_info">FriendInfo</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="title_activity_generate_report">GenerateReportActivity</string>
+    <string name="title_activity_sales_report">SalesReportActivity</string>
 
 </resources>

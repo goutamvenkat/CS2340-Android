@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -90,6 +91,7 @@ public class RegisterScreen extends Activity {
                                 ParseObject Items = new ParseObject("Items");
                                 Items.put("username", username);
                                 Items.put("MyItems", new JSONObject());
+                                Items.put("MyReports", new ArrayList<String>());
                                 Items.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, LoginActivity.class);

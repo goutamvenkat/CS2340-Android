@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:id="@+id/LoggedinLogout"
+        android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="158dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -29,7 +29,10 @@
         android:text="Add Friends"
         android:id="@+id/requestFriendButtonMain"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/requestItemButton"
+        android:layout_alignStart="@+id/requestItemButton"
+        android:layout_alignRight="@+id/requestItemButton"
+        android:layout_alignEnd="@+id/requestItemButton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -38,6 +41,30 @@
         android:id="@+id/requestItemButton"
         android:layout_above="@+id/requestFriendButtonMain"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sales Report"
+        android:id="@+id/salesReportButton"
+        android:onClick="goToSalesReport"
+        android:layout_above="@+id/requestItemButton"
+        android:layout_alignLeft="@+id/requestItemButton"
+        android:layout_alignStart="@+id/requestItemButton"
+        android:layout_alignRight="@+id/requestItemButton"
+        android:layout_alignEnd="@+id/requestItemButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Report"
+        android:onClick="goToGenerate"
+        android:id="@+id/generateReportButton"
+        android:layout_below="@+id/requestFriendButtonMain"
+        android:layout_alignLeft="@+id/requestFriendButtonMain"
+        android:layout_alignStart="@+id/requestFriendButtonMain"
+        android:layout_alignRight="@+id/requestFriendButtonMain"
+        android:layout_alignEnd="@+id/requestFriendButtonMain" />
 
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 /**
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
         ParseUser currentUser = ParseUser.getCurrentUser();
         TextView text = (TextView) findViewById(R.id.LoggedinText);
         text.setText("Hi " + currentUser.getUsername());
@@ -63,7 +64,14 @@ public class MainActivity extends Activity {
 
     }
 
-
+    public void goToGenerate(View v) {
+        Intent intent = new Intent(this, GenerateReportActivity.class);
+        startActivity(intent);
+    }
+    public void goToSalesReport(View v) {
+        Intent intent = new Intent(this, SalesReportActivity.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
