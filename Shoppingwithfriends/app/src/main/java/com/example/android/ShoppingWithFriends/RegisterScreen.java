@@ -91,7 +91,7 @@ public class RegisterScreen extends Activity {
                                 ParseObject Items = new ParseObject("Items");
                                 Items.put("username", username);
                                 Items.put("MyItems", new JSONObject());
-                                Items.put("MyReports", new ArrayList<String>());
+                                Items.put("MyReports", new JSONArray());
                                 Items.saveInBackground();
 
                                 Intent takeMain = new Intent(RegisterScreen.this, LoginActivity.class);

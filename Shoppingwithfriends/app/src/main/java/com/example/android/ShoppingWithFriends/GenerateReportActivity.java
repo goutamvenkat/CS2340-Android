@@ -63,12 +63,26 @@ public class GenerateReportActivity extends Activity implements LocationListener
                         if (parseObjects.size() > 0 && e == null) {
                             ParseObject object = parseObjects.get(0);
                             try {
-                                ArrayList<JSONObject> myReports = (ArrayList) object.getList("MyReports");
+                                JSONArray myReports = object.getJSONArray("MyReports");
                                 JSONObject newItem = new JSONObject();
+                                int index = -1;
+                                for (int i = 0; i < myReports.length(); i++) {
+                                    JSONObject x = myReports.getJSONObject(i);
+                                    if (x.getString("Item").trim().equalsIgnoreCase(name)) {
+                                        index = i;
+                                        break;
+                                    }
+                                }
+
                                 newItem.put("Item", name);
                                 newItem.put("Price", price);
                                 newItem.put("Location", Arrays.asList(latitude, longitude));
-                                myReports.add(newItem);
+                                if (index == -1) {
+                                    myReports.put(newItem);
+                                } else {
+                                    myReports.remove(index);
+                                    myReports.put(index, newItem);
+                                }
                                 object.put("MyReports", myReports);
                                 object.saveInBackground();
                                 Utility.showMessage("Successful!", "Added Report", GenerateReportActivity.this);

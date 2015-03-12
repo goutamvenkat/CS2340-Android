@@ -59,11 +59,11 @@
         </activity>
         <activity
             android:name=".GenerateReportActivity"
-            android:label="@string/title_activity_generate_report" >
+            android:label="Generate Report" >
         </activity>
         <activity
             android:name=".SalesReportActivity"
-            android:label="@string/title_activity_sales_report" >
+            android:label="Sales Report" >
         </activity>
     </application>
 
