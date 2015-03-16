@@ -13,5 +13,7 @@
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <string name="title_activity_generate_report">GenerateReportActivity</string>
     <string name="title_activity_sales_report">SalesReportActivity</string>
+    <string name="title_activity_map_sales_report_item">Map</string>
+    <string name="title_activity_maps_sales_report_item">Location of Item</string>
 
 </resources>
