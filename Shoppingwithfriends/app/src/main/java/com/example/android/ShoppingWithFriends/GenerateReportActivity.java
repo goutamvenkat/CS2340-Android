@@ -1,11 +1,14 @@
 package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.provider.SyncStateContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +35,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Allows to generate report
+ * Location will be determined by GPS
+ */
 
 public class GenerateReportActivity extends Activity implements LocationListener {
     private EditText itemName;
@@ -48,6 +55,11 @@ public class GenerateReportActivity extends Activity implements LocationListener
         itemName = (EditText) findViewById (R.id.generateReportItemName);
         itemPrice = (EditText) findViewById(R.id.generateReportItemPrice);
         submitButton = (Button) findViewById(R.id.generateReportsubmitButton);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            showGPSDisabledAlertToUser();
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, GenerateReportActivity.this);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,8 +72,7 @@ public class GenerateReportActivity extends Activity implements LocationListener
                     ParseUser user = ParseUser.getCurrentUser();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
                     query.whereEqualTo("username", user.getUsername());
-                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    query.findInBackground(new FindCallback<ParseObject>() {
+                        query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
                             if (parseObjects.size() > 0 && e == null) {
@@ -72,7 +83,6 @@ public class GenerateReportActivity extends Activity implements LocationListener
                                     int index = getIndex(myReports, name, price);
                                     newItem.put("Item", name);
                                     newItem.put("Price", price);
-                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, GenerateReportActivity.this);
                                     newItem.put("Location", new ParseGeoPoint(latitude, longitude));
                                     if (index == -1) {
                                         myReports.put(newItem);
@@ -99,6 +109,39 @@ public class GenerateReportActivity extends Activity implements LocationListener
 
         });
     }
+
+    /**
+     * Enable GPS if not enabled
+     */
+    private void showGPSDisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Go to Settings Page To Enable GPS",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    /**
+     * Determines circumstance
+     * @param array
+     * @param name
+     * @param price
+     * @return appropriate index for situation
+     */
     private int getIndex(JSONArray array, String name, double price) {
         int index = -1;
         try {
@@ -125,15 +168,15 @@ public class GenerateReportActivity extends Activity implements LocationListener
     }
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
+
     }
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
+
     }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude", "status");
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

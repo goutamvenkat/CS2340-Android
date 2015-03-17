@@ -74,7 +74,9 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCZzrnj8f5c-6QZRZsFKy37XmcwfBEM7W0" />
-
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name=".MapsSalesReportItem"
             android:label="@string/title_activity_maps_sales_report_item" >

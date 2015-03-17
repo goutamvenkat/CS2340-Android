@@ -90,6 +90,14 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
     @Override
+    public void onResume() {
+        super.onResume();
+        if (ParseUser.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);

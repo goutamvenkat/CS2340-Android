@@ -25,13 +25,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+/**
+ * SalesReportActivity
+ * Returns all appropriate notifications for user, upon which they can and find out where it is
+ */
 
 public class SalesReportActivity extends Activity {
     private JSONObject userItems;
     private ParseObject currentUser;
     private ArrayList<MyObject> notificationList = new ArrayList<>();
+    private String theKey = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,11 @@ public class SalesReportActivity extends Activity {
             }
         });
     }
+
+    /**
+     * MyItemClickListener
+     * OnItemClicklistener for salesList
+     */
     private class MyItemClickListener implements AdapterView.OnItemClickListener {
 
         @Override
@@ -83,6 +94,11 @@ public class SalesReportActivity extends Activity {
 
         }
     }
+
+    /**
+     * Fills the list based on queries
+     * @param parseObjects
+     */
     private void fillNotificationList(List<ParseObject> parseObjects) {
         try {
             for (ParseObject obj : parseObjects) {
@@ -90,7 +106,7 @@ public class SalesReportActivity extends Activity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject item = array.getJSONObject(i);
                     String itemName = item.getString("Item").toLowerCase().trim();
-                    if (userItems != null && !userItems.isNull(itemName) && item.getInt("Price") <= userItems.getInt(itemName)) {
+                    if (userItems != null && keyInUserItems(itemName) && item.getInt("Price") <= userItems.getInt(theKey)) {
                         notificationList.add(new MyObject(item));
                     }
                 }
@@ -100,6 +116,23 @@ public class SalesReportActivity extends Activity {
             Utility.showMessage(ex.getMessage(), "Oops!", SalesReportActivity.this);
         }
     }
+
+    private boolean keyInUserItems(String item_name) {
+//        if (!userItems.isNull(item_name)) return true;
+        Iterator<?> it = userItems.keys();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            if (key.trim().toLowerCase().equalsIgnoreCase(item_name)) {
+                theKey = key;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * MyObject special class - easy handling
+     */
     private class MyObject {
         private String itemName;
         private int itemPrice;
@@ -117,8 +150,7 @@ public class SalesReportActivity extends Activity {
             return location;
         }
         public String toString() {
-            return "Name: " + itemName + "\n" +
-                   "Price: " + itemPrice;
+            return itemName + " : $" + itemPrice;
         }
         private String getName() {
             return itemName;
