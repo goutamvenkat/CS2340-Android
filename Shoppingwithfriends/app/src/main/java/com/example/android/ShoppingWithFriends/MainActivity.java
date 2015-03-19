@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
                                 addToParseTable(graphUser.getName());
                                 ParseUser currentUser = ParseUser.getCurrentUser();
                                 currentUser.setUsername(graphUser.getName());
+                                currentUser.setEmail((String)graphUser.getProperty("email"));
                                 currentUser.saveInBackground();
                             }
                         }
