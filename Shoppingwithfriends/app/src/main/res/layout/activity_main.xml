@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:id="@+id/LoggedinLogout"
+        android:onClick="logoutOnClick"
         android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

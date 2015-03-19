@@ -1,8 +1,11 @@
 package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +17,11 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The Main Home page activity for the app
@@ -28,7 +35,7 @@ public class LoginActivity extends Activity {
     protected EditText mPassword;
     protected Button LoginButton;
     protected Button RegisterButton;
-
+    private Dialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +69,8 @@ public class LoginActivity extends Activity {
                         if (user != null) {
 
                             Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
-
-                            Intent takeHome = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(takeHome);
-
-
+                            System.out.println("I AM HERE");
+                            goToMain();
 
                         } else {
                             Utility.showMessage(e.getMessage(), "Login Failed!", LoginActivity.this);
@@ -84,7 +88,37 @@ public class LoginActivity extends Activity {
             }
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    }
+    public void onLoginClick(View v) {
+        progressDialog = ProgressDialog.show(LoginActivity.this, "", "Logging in...", true);
+        List<String> permissions = Arrays.asList("public_profile", "user_friends", "email");
+        // NOTE: for extended permissions, like "user_about_me", your app must be reviewed by the Facebook team
+        // (https://developers.facebook.com/docs/facebook-login/permissions/)
 
+        ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException err) {
+                progressDialog.dismiss();
+                if (user == null) {
+                    Log.d("TAG", "Uh oh. The user cancelled the Facebook login.");
+                } else if (user.isNew()) {
+                    Log.d("TAG", "User signed up and logged in through Facebook!");
+                    goToMain();
+                } else {
+                    Log.d("TAG", "User logged in through Facebook!");
+                    goToMain();
+                }
+            }
+        });
+    }
+    public void goToMain() {
+        Intent takeHome = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(takeHome);
+    }
     public void forgotPassword(View v) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);

@@ -66,26 +66,29 @@ public class RequestItem extends Activity {
                     currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
-                            // Find the corresponding user
-                            ParseObject currentUser = parseObjects.get(0);
-                            //Check for duplicates
-                            try{
-                                JSONObject myItems = currentUser.getJSONObject("MyItems");
-                                if (!myItems.isNull(nameOfItem)) {
-                                    Utility.showMessage("Replaced threshold", "Duplicate Item", RequestItem.this);
-                                } else {
-                                    Utility.showMessage("Item Registered", "Success!", RequestItem.this);
+                            if (parseObjects.size() > 0 && e == null) {
+                                // Find the corresponding user
+                                ParseObject currentUser = parseObjects.get(0);
+                                //Check for duplicates
+                                try{
+                                    JSONObject myItems = currentUser.getJSONObject("MyItems");
+                                    if (!myItems.isNull(nameOfItem)) {
+                                        Utility.showMessage("Replaced threshold", "Duplicate Item", RequestItem.this);
+                                    } else {
+                                        Utility.showMessage("Item Registered", "Success!", RequestItem.this);
+                                    }
+                                    myItems.put(nameOfItem, price);
+                                    currentUser.put("MyItems", myItems);
+                                    currentUser.saveInBackground();
+                                    itemName.setText("");
+                                    itemPrice.setText("");
+
+                                } catch (JSONException ex) {
+                                    Utility.showMessage(ex.getMessage(), "Problem with JSON", RequestItem.this);
                                 }
-                                myItems.put(nameOfItem, price);
-                                currentUser.put("myItems", myItems);
-                                currentUser.saveInBackground();
-                                itemName.setText("");
-                                itemPrice.setText("");
-
-                            } catch (JSONException ex) {
-                                Utility.showMessage(ex.getMessage(), "Problem with JSON", RequestItem.this);
+                            } else {
+                                Utility.showMessage(e.getMessage(), "Something went wrong!", RequestItem.this);
                             }
-
 
                         }
                     });

@@ -15,5 +15,6 @@
     <string name="title_activity_sales_report">SalesReportActivity</string>
     <string name="title_activity_map_sales_report_item">Map</string>
     <string name="title_activity_maps_sales_report_item">Location of Item</string>
+    <string name="facebook_app_id">360405684143198</string>
 
 </resources>

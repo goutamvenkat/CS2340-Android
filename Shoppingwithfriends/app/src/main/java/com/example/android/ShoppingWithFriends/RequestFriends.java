@@ -34,7 +34,7 @@ public class RequestFriends extends Activity {
     protected Button requests;
     protected Button sent_requestsButton;
     private AutoCompleteTextView autoComplete;
-    private String fromAutoComplete;
+    private String fromAutoComplete = "";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,17 +96,17 @@ public class RequestFriends extends Activity {
             public void onClick(View v) {
 
                 //Get Strings
-//                final String username = mUserName.getEditableText().toString().trim();
-                final String username = fromAutoComplete;
-                if (username.length() == 0) {
+//                final String username = fromAutoComplete;
+                if (fromAutoComplete.length() == 0 && autoComplete.getText().toString().length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Friend Add Request Failed", RequestFriends.this);
                 }
-                else if (username.equals(ParseUser.getCurrentUser().getUsername())) {
+                else if (fromAutoComplete.equals(ParseUser.getCurrentUser().getUsername())) {
                     Utility.showMessage("Request Failed!", "Can't request yourself!", RequestFriends.this);
                 }
                 else {
+                    if (fromAutoComplete.equalsIgnoreCase("")) fromAutoComplete = autoComplete.getText().toString();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
-                    query.whereEqualTo("username", username);
+                    query.whereEqualTo("username", fromAutoComplete);
                     query.findInBackground(new FindCallback <ParseObject> () {
                         public void done(List<ParseObject> object, ParseException e) {
 
@@ -124,10 +124,10 @@ public class RequestFriends extends Activity {
                                         // If not friends already, then add to the respective columns
                                         boolean already_friend = true;
                                         boolean already_requested = true;
-                                        if (!friendsOfCurrentUser.contains(username)) {
+                                        if (!friendsOfCurrentUser.contains(fromAutoComplete)) {
                                             already_friend = false;
-                                            if (!requestingTo.contains(username)) {
-                                                requestingTo.add(username);
+                                            if (!requestingTo.contains(fromAutoComplete)) {
+                                                requestingTo.add(fromAutoComplete);
                                                 already_requested = false;
                                             }
                                             if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername()))
