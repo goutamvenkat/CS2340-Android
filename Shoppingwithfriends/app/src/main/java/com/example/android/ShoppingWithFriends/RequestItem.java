@@ -77,7 +77,7 @@ public class RequestItem extends Activity {
                                     Utility.showMessage("Item Registered", "Success!", RequestItem.this);
                                 }
                                 myItems.put(nameOfItem, price);
-                                currentUser.put("myItems", myItems);
+                                currentUser.put("MyItems", myItems);
                                 currentUser.saveInBackground();
                                 itemName.setText("");
                                 itemPrice.setText("");
