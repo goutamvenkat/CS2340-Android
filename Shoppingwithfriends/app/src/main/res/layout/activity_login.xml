@@ -19,8 +19,8 @@
         android:hint="Username"
         android:id="@+id/LoginUsername"
         android:autoText="false"
-        android:textColor="@color/bright_foreground_material_light"
-        android:backgroundTint="@color/background_floating_material_dark"
+        android:textColor="@color/bright_foreground_material_dark"
+        android:backgroundTint="@color/background_floating_material_light"
         android:maxLines="1" />
     <EditText
         android:layout_width="match_parent"
@@ -30,8 +30,8 @@
         android:inputType="textPassword"
         android:ems="10"
         android:maxLines="1"
-        android:textColor="@color/bright_foreground_material_light"
-        android:backgroundTint="@color/background_floating_material_dark" />
+        android:textColor="@color/bright_foreground_material_dark"
+        android:backgroundTint="@color/background_floating_material_light" />
 
     <Button
         android:layout_width="match_parent"
