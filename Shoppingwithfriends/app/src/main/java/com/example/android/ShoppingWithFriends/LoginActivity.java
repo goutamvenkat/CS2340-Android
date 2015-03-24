@@ -69,7 +69,6 @@ public class LoginActivity extends Activity {
                         if (user != null) {
 
                             Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
-                            System.out.println("I AM HERE");
                             goToMain();
 
                         } else {

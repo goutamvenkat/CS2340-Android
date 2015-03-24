@@ -77,8 +77,8 @@ public class MainActivity extends Activity {
         Request request = Request.newMeRequest(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
             @Override
             public void onCompleted(final GraphUser graphUser, Response response) {
-                text.setText("Hi " + graphUser.getName());
                 if (graphUser != null) {
+                    text.setText("Hi " + graphUser.getName());
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", graphUser.getName());
                     query.findInBackground(new FindCallback<ParseObject>() {

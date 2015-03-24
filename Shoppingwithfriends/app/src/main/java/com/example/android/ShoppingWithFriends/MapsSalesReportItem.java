@@ -42,13 +42,19 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
     private LatLng itemPos;
     private LocationManager locationManager;
     private HashSet<LatLng> set = new HashSet<>();
+    private String network_or_GPS = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_sales_report_item);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            network_or_GPS = "network";
+        } else if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showGPSDisabledAlertToUser();
+            network_or_GPS = "GPS";
+        } else {
+            network_or_GPS = "GPS";
         }
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -72,10 +78,15 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
             MarkerOptions marker = new MarkerOptions().position(itemPos).title(name);
             googleMap.addMarker(marker);
             googleMap.setMyLocationEnabled(true);
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(itemPos).zoom(16).build();
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(itemPos).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
+            if (network_or_GPS.equals("GPS")) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 60 * 1, 1, this);
+            } else {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 60 * 1, 1, this);
+            }
+
             // check if map is created successfully or not
             if (googleMap == null) {
                 Toast.makeText(getApplicationContext(),

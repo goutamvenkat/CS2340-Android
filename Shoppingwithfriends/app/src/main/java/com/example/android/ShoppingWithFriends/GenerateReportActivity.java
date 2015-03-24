@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.android.Util;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -40,12 +41,13 @@ import java.util.List;
  * Location will be determined by GPS
  */
 
-public class GenerateReportActivity extends Activity implements LocationListener {
+public class GenerateReportActivity extends Activity {
     private EditText itemName;
     private EditText itemPrice;
     private Button submitButton;
-    protected LocationManager locationManager;
-    protected double latitude,longitude;
+    private Utility.GPSTracker gpsTracker;
+//    protected LocationManager locationManager;
+//    protected double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +57,10 @@ public class GenerateReportActivity extends Activity implements LocationListener
         itemName = (EditText) findViewById (R.id.generateReportItemName);
         itemPrice = (EditText) findViewById(R.id.generateReportItemPrice);
         submitButton = (Button) findViewById(R.id.generateReportsubmitButton);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showGPSDisabledAlertToUser();
+        gpsTracker = new Utility.GPSTracker(GenerateReportActivity.this);
+        if (!gpsTracker.canGetLocation()) {
+            gpsTracker.showSettingsAlert();
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, GenerateReportActivity.this);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +84,8 @@ public class GenerateReportActivity extends Activity implements LocationListener
                                     int index = getIndex(myReports, name, price);
                                     newItem.put("Item", name);
                                     newItem.put("Price", price);
-                                    newItem.put("Location", new ParseGeoPoint(latitude, longitude));
+                                    newItem.put("Location", new ParseGeoPoint(gpsTracker.getLatitude(), gpsTracker.getLongitude()));
+
                                     if (index == -1) {
                                         myReports.put(newItem);
                                         Utility.showMessage("Successful!", "Added Report", GenerateReportActivity.this);
@@ -113,27 +115,6 @@ public class GenerateReportActivity extends Activity implements LocationListener
     /**
      * Enable GPS if not enabled
      */
-    private void showGPSDisabledAlertToUser() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Go to Settings Page To Enable GPS",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                                Intent callGPSSettingIntent = new Intent(
-                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                            }
-                        });
-        alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
 
     /**
      * Determines circumstance
@@ -160,23 +141,6 @@ public class GenerateReportActivity extends Activity implements LocationListener
             Utility.showMessage("JSON Error", "Oops!", this);
         }
         return index;
-    }
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-    }
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
