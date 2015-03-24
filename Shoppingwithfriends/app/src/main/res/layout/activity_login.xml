@@ -4,20 +4,34 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ff16171a"
+    android:weightSum="1">
+    <ImageView
+        android:layout_width="120dp"
+        android:src="@drawable/shopex_logo"
+        android:layout_height="99dp"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
-        android:id="@+id/LoginUsername"/>
+        android:id="@+id/LoginUsername"
+        android:autoText="false"
+        android:textColor="@color/bright_foreground_material_light"
+        android:backgroundTint="@color/background_floating_material_dark"
+        android:maxLines="1" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:id="@+id/LoginPassword"
         android:inputType="textPassword"
-        android:ems="10"/>
+        android:ems="10"
+        android:maxLines="1"
+        android:textColor="@color/bright_foreground_material_light"
+        android:backgroundTint="@color/background_floating_material_dark" />
 
     <Button
         android:layout_width="match_parent"
