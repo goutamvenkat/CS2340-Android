@@ -116,7 +116,11 @@ public class SalesReportActivity extends Activity {
             Utility.showMessage(ex.getMessage(), "Oops!", SalesReportActivity.this);
         }
     }
-
+    /**
+    * keyInUserItems
+    * @param item_name name of the item you want to find
+    * @return  true or false depending on whether it is there in user items
+    */
     private boolean keyInUserItems(String item_name) {
 //        if (!userItems.isNull(item_name)) return true;
         Iterator<?> it = userItems.keys();
