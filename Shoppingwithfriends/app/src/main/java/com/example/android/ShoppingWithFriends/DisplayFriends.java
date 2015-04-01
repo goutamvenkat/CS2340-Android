@@ -18,7 +18,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +40,7 @@ public class DisplayFriends extends Activity{
                 if (e == null && objects.size() > 0) {
                     final ParseObject targetUser = objects.get(0);
                     final List<String> Friends = targetUser.getList("Friends");
-                    ArrayList<String> rfriends = (ArrayList) Friends;
-                    final ArrayAdapter<String> listAdapter  = new ArrayAdapter<>(DisplayFriends.this, R.layout.activity_display_each_friend, R.id.textView, rfriends);
+                    final ArrayAdapter<String> listAdapter  = new ArrayAdapter<>(DisplayFriends.this, R.layout.activity_display_each_friend, R.id.textView, Friends);
                     friendList.setAdapter(listAdapter);
                     friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

@@ -2,7 +2,6 @@ package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,6 @@ import android.widget.ListView;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -24,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,12 +33,13 @@ import java.util.List;
 public class SalesReportActivity extends Activity {
     private JSONObject userItems;
     private ParseObject currentUser;
-    private ArrayList<MyObject> notificationList = new ArrayList<>();
+    private ArrayList<MyObject> notificationList;
     private String theKey = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_report);
+        notificationList = new ArrayList<>();
         final ListView salesList = (ListView) findViewById(R.id.listViewSalesReport);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
         ParseQuery<ParseObject> queryForUserList = ParseQuery.getQuery("Items");
@@ -62,7 +60,7 @@ public class SalesReportActivity extends Activity {
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null && parseObjects.size() > 0) {
                     fillNotificationList(parseObjects);
-                    ArrayAdapter adapter = new ArrayAdapter(SalesReportActivity.this, R.layout.activity_each_sales_report, R.id.textViewEachSalesReport, notificationList);
+                    @SuppressWarnings("unchecked") ArrayAdapter adapter = new ArrayAdapter(SalesReportActivity.this, R.layout.activity_each_sales_report, R.id.textViewEachSalesReport, notificationList);
                     salesList.setAdapter(adapter);
                     salesList.setOnItemClickListener(new MyItemClickListener());
                 }
@@ -72,7 +70,7 @@ public class SalesReportActivity extends Activity {
 
     /**
      * MyItemClickListener
-     * OnItemClicklistener for salesList
+     * OnItemClickListener for salesList
      */
     private class MyItemClickListener implements AdapterView.OnItemClickListener {
 
@@ -97,7 +95,7 @@ public class SalesReportActivity extends Activity {
 
     /**
      * Fills the list based on queries
-     * @param parseObjects
+     * @param parseObjects All users other than the one logged in
      */
     private void fillNotificationList(List<ParseObject> parseObjects) {
         try {

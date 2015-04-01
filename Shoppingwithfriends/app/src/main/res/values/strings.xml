@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">ShopEx</string>
     <string name="hello_world">Hello world!</string>
@@ -7,12 +7,12 @@
     <string name="title_activity_register_screen">RegisterScreen</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_tab">TabActivity</string>
-    <string name="title_activity_list_friend_requests">ListFriendRequests</string>
+    <string name="title_activity_list_friend_requests" tools:ignore="UnusedResources">ListFriendRequests</string>
     <string name="title_activity_list_sent_requests">ListSentRequests</string>
     <string name="title_activity_friend_info">FriendInfo</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
     <string name="title_activity_generate_report">GenerateReportActivity</string>
-    <string name="title_activity_sales_report">SalesReportActivity</string>
+    <string name="title_activity_sales_report" tools:ignore="UnusedResources">SalesReportActivity</string>
     <string name="title_activity_map_sales_report_item">Map</string>
     <string name="title_activity_maps_sales_report_item">Location of Item</string>
     <string name="facebook_app_id">360405684143198</string>

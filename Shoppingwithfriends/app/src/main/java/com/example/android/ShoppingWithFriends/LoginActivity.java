@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -29,12 +28,13 @@ import java.util.List;
  * @author Suvrat Bhooshan
  * @version 1.0
  */
+@SuppressWarnings("ALL")
 public class LoginActivity extends Activity {
 
-    protected EditText mUsername;
-    protected EditText mPassword;
-    protected Button LoginButton;
-    protected Button RegisterButton;
+    private EditText mUsername;
+    private EditText mPassword;
+    private Button LoginButton;
+    private Button RegisterButton;
     private Dialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class LoginActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
-    public void onLoginClick(View v) {
+    public void onLoginClick(@SuppressWarnings("UnusedParameters") View v) {
         progressDialog = ProgressDialog.show(LoginActivity.this, "", "Logging in...", true);
         List<String> permissions = Arrays.asList("public_profile", "user_friends", "email");
         // NOTE: for extended permissions, like "user_about_me", your app must be reviewed by the Facebook team
@@ -114,11 +114,11 @@ public class LoginActivity extends Activity {
             }
         });
     }
-    public void goToMain() {
+    void goToMain() {
         Intent takeHome = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(takeHome);
     }
-    public void forgotPassword(View v) {
+    public void forgotPassword(@SuppressWarnings("UnusedParameters") View v) {
         Intent intent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(intent);
     }

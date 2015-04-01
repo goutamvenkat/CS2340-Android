@@ -26,7 +26,6 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +35,8 @@ import java.util.List;
  * @author Goutam Venkat
  * @version 1.0
  */
+@SuppressWarnings("ALL")
 public class MainActivity extends Activity {
-    private Button addFriends;
-    private Button requestItem;
     private TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class MainActivity extends Activity {
         } else {
             text.setText("Hi " + currentUser.getUsername());
         }
-        addFriends = (Button) findViewById(R.id.requestFriendButtonMain);
+        Button addFriends = (Button) findViewById(R.id.requestFriendButtonMain);
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +62,7 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, RequestFriends.class));
             }
         });
-        requestItem = (Button) findViewById(R.id.requestItemButton);
+        Button requestItem = (Button) findViewById(R.id.requestItemButton);
         requestItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +107,7 @@ public class MainActivity extends Activity {
         });
         request.executeAsync();
     }
-    public void logoutOnClick(View v) {
+    public void logoutOnClick(@SuppressWarnings("UnusedParameters") View v) {
         logOut();
     }
     private void addToParseTable(String username) {
@@ -136,11 +134,11 @@ public class MainActivity extends Activity {
         startActivity(takeToLogin);
         finish();
     }
-    public void goToGenerate(View v) {
+    public void goToGenerate(@SuppressWarnings("UnusedParameters") View v) {
         Intent intent = new Intent(this, GenerateReportActivity.class);
         startActivity(intent);
     }
-    public void goToSalesReport(View v) {
+    public void goToSalesReport(@SuppressWarnings("UnusedParameters") View v) {
         Intent intent = new Intent(this, SalesReportActivity.class);
         startActivity(intent);
     }

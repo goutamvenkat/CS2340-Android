@@ -1,25 +1,12 @@
 package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.provider.SyncStateContract;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.facebook.android.Util;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -32,8 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,10 +29,7 @@ import java.util.List;
 public class GenerateReportActivity extends Activity {
     private EditText itemName;
     private EditText itemPrice;
-    private Button submitButton;
     private Utility.GPSTracker gpsTracker;
-//    protected LocationManager locationManager;
-//    protected double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +38,7 @@ public class GenerateReportActivity extends Activity {
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
         itemName = (EditText) findViewById (R.id.generateReportItemName);
         itemPrice = (EditText) findViewById(R.id.generateReportItemPrice);
-        submitButton = (Button) findViewById(R.id.generateReportsubmitButton);
+        Button submitButton = (Button) findViewById(R.id.generateReportsubmitButton);
         gpsTracker = new Utility.GPSTracker(GenerateReportActivity.this);
         if (!gpsTracker.canGetLocation()) {
             gpsTracker.showSettingsAlert();
@@ -73,7 +55,7 @@ public class GenerateReportActivity extends Activity {
                     ParseUser user = ParseUser.getCurrentUser();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
                     query.whereEqualTo("username", user.getUsername());
-                        query.findInBackground(new FindCallback<ParseObject>() {
+                    query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
                             if (parseObjects.size() > 0 && e == null) {
@@ -90,7 +72,7 @@ public class GenerateReportActivity extends Activity {
                                         myReports.put(newItem);
                                         Utility.showMessage("Successful!", "Added Report", GenerateReportActivity.this);
                                     } else if (index == -2) {
-                                      Utility.showMessage("Not Successful!", "Price more than before!", GenerateReportActivity.this);
+                                        Utility.showMessage("Not Successful!", "Price more than before!", GenerateReportActivity.this);
                                     } else {
                                         myReports = Utility.remove(myReports, index);
                                         myReports.put(index, newItem);
@@ -106,8 +88,8 @@ public class GenerateReportActivity extends Activity {
                             }
                         }
                     });
-                    }
                 }
+            }
 
         });
     }
@@ -118,9 +100,9 @@ public class GenerateReportActivity extends Activity {
 
     /**
      * Determines circumstance
-     * @param array
-     * @param name
-     * @param price
+     * @param array jsonarray
+     * @param name name of item
+     * @param price price of item
      * @return appropriate index for situation
      */
     private int getIndex(JSONArray array, String name, double price) {

@@ -9,14 +9,11 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -25,10 +22,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseGeoPoint;
 
 import java.util.HashSet;
-import java.util.Objects;
 
 /**
  * MapSalesReportItem class
@@ -37,7 +32,6 @@ import java.util.Objects;
 
 public class MapsSalesReportItem extends Activity implements LocationListener {
     private GoogleMap googleMap;
-    private double latitude, longitude, myLat, myLong;
     private String name;
     private LatLng itemPos;
     private LocationManager locationManager;
@@ -58,11 +52,11 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
         }
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            latitude = extras.getDouble("latitude");
-            longitude = extras.getDouble("longitude");
+            double latitude = extras.getDouble("latitude");
+            double longitude = extras.getDouble("longitude");
             name = extras.getString("itemName");
             itemPos = new LatLng(latitude, longitude);
-            initilizeMap();
+            initializeMap();
         }
 
     }
@@ -70,7 +64,7 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
     /**
      * Initializes Map upon call
      */
-    private void initilizeMap() {
+    private void initializeMap() {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
@@ -124,7 +118,7 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
     @Override
     protected void onResume() {
         super.onResume();
-        initilizeMap();
+        initializeMap();
     }
 
     @Override
@@ -150,8 +144,8 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
     }
     @Override
     public void onLocationChanged(Location location) {
-        myLat = location.getLatitude();
-        myLong = location.getLongitude();
+        double myLat = location.getLatitude();
+        double myLong = location.getLongitude();
         LatLng current = new LatLng(myLat, myLong);
         if (set.size() == 0) set.add(current);
         else if (!set.contains(current)) {
@@ -167,6 +161,7 @@ public class MapsSalesReportItem extends Activity implements LocationListener {
             newSet.add((LatLng) array[array.length - 1]);
             set = newSet;
         }
+        @SuppressWarnings("UnusedAssignment")
         Polyline line = googleMap.addPolyline(new PolylineOptions().add(current, itemPos).color(Color.BLUE));
     }
 

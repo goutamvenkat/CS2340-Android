@@ -22,7 +22,8 @@
         android:onClick="logoutOnClick"
         android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
         android:layout_alignLeft="@+id/requestItemButton"
         android:layout_alignStart="@+id/requestItemButton"
         android:layout_alignRight="@+id/requestItemButton"
-        android:layout_alignEnd="@+id/requestItemButton" />
+        android:layout_alignEnd="@+id/requestItemButton"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="wrap_content"
@@ -41,7 +43,8 @@
         android:text="Request Item"
         android:id="@+id/requestItemButton"
         android:layout_above="@+id/requestFriendButtonMain"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="wrap_content"
@@ -53,7 +56,8 @@
         android:layout_alignLeft="@+id/requestItemButton"
         android:layout_alignStart="@+id/requestItemButton"
         android:layout_alignRight="@+id/requestItemButton"
-        android:layout_alignEnd="@+id/requestItemButton" />
+        android:layout_alignEnd="@+id/requestItemButton"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,7 +69,8 @@
         android:layout_alignLeft="@+id/requestFriendButtonMain"
         android:layout_alignStart="@+id/requestFriendButtonMain"
         android:layout_alignRight="@+id/requestFriendButtonMain"
-        android:layout_alignEnd="@+id/requestFriendButtonMain" />
+        android:layout_alignEnd="@+id/requestFriendButtonMain"
+        tools:ignore="HardcodedText" />
 
 
 </RelativeLayout>

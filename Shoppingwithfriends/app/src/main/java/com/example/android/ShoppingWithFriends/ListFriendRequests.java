@@ -41,7 +41,7 @@ public class ListFriendRequests extends Activity {
                 if (e == null && objects.size() > 0) {
                     final ParseObject targetUser = objects.get(0);
                     final List FriendRequests = targetUser.getList("FriendsRequestsReceived");
-                    final ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ListFriendRequests.this, R.layout.activity_list_each_request, R.id.textViewEachRequest, FriendRequests);
+                    @SuppressWarnings("unchecked") final ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ListFriendRequests.this, R.layout.activity_list_each_request, R.id.textViewEachRequest, FriendRequests);
                     friendList.setAdapter(listAdapter);
                     friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -71,6 +71,7 @@ public class ListFriendRequests extends Activity {
                         }
                     });
                 } else {
+                    //noinspection ConstantConditions
                     Utility.showMessage(e.getMessage(), "Can't get friend requests!", ListFriendRequests.this);
                 }
             }
@@ -79,9 +80,9 @@ public class ListFriendRequests extends Activity {
     /**
     * addFriend - private helper method
     * when addFriend is selected on alert dialog the list is changed for each user
-    * @param ParseObject currentuser
-    * @param List FriendRequests
-    * @param String friendToBeAdded
+    * @param currentuser Current user
+    * @param FriendRequests List of Friend Requests
+    * @param friendToBeAdded Friend to be Added
     */
     private void addFriend(final ParseObject currentuser, List FriendRequests, String friendToBeAdded) {
         FriendRequests.remove(friendToBeAdded);
@@ -94,6 +95,7 @@ public class ListFriendRequests extends Activity {
         //
 
         List friendsOfUser = currentuser.getList("Friends");
+        //noinspection unchecked
         friendsOfUser.add(friendToBeAdded);
         currentuser.put("Friends", friendsOfUser);
         // save back to database
@@ -117,9 +119,11 @@ public class ListFriendRequests extends Activity {
                     otherUser.put("FriendsRequestsReceived", receivedRequestsToOtherUser);
 
                     List friendsOfOtherUser = otherUser.getList("Friends");
+                    //noinspection unchecked
                     friendsOfOtherUser.add(currentuser.get("username"));
                     otherUser.saveInBackground();
                 } else {
+                    //noinspection ConstantConditions
                     Utility.showMessage(e.getMessage(), "Something went wrong!", ListFriendRequests.this);
                 }
             }

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -29,10 +28,6 @@ import java.util.List;
 */
 public class RequestFriends extends Activity {
 
-    protected Button requestFriendButton;
-    protected Button displayFriendButton;
-    protected Button requests;
-    protected Button sent_requestsButton;
     private AutoCompleteTextView autoComplete;
     private String fromAutoComplete = "";
 
@@ -40,17 +35,17 @@ public class RequestFriends extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requestfriends);
 
-        //Initilialize Parse
+        //Initialize Parse
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
 
         //Initialize Components
-        requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
-        displayFriendButton = (Button) findViewById(R.id.displaybutton);
+        Button requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
+        Button displayFriendButton = (Button) findViewById(R.id.displaybutton);
 
-        requests = (Button) findViewById(R.id.friendRequestsReceived);
-        sent_requestsButton = (Button) findViewById(R.id.sent_requests);
+        Button requests = (Button) findViewById(R.id.friendRequestsReceived);
+        Button sent_requestsButton = (Button) findViewById(R.id.sent_requests);
         sent_requestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,10 +67,10 @@ public class RequestFriends extends Activity {
         displayFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 Intent takelistfriends = new Intent(RequestFriends.this, DisplayFriends.class);
-                 startActivity(takelistfriends);
-                }
-            });
+                Intent takelistfriends = new Intent(RequestFriends.this, DisplayFriends.class);
+                startActivity(takelistfriends);
+            }
+        });
         //Listen to Register Button Click
         Button logout = (Button) findViewById(R.id.logoutbutton);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -99,15 +94,14 @@ public class RequestFriends extends Activity {
 //                final String username = fromAutoComplete;
                 if (fromAutoComplete.length() == 0 && autoComplete.getText().toString().length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Friend Add Request Failed", RequestFriends.this);
-                }
-                else if (fromAutoComplete.equals(ParseUser.getCurrentUser().getUsername())) {
+                } else if (fromAutoComplete.equals(ParseUser.getCurrentUser().getUsername())) {
                     Utility.showMessage("Request Failed!", "Can't request yourself!", RequestFriends.this);
-                }
-                else {
-                    if (fromAutoComplete.equalsIgnoreCase("")) fromAutoComplete = autoComplete.getText().toString();
+                } else {
+                    if (fromAutoComplete.equalsIgnoreCase(""))
+                        fromAutoComplete = autoComplete.getText().toString();
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
                     query.whereEqualTo("username", fromAutoComplete);
-                    query.findInBackground(new FindCallback <ParseObject> () {
+                    query.findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> object, ParseException e) {
 
                             if (e == null && object.size() > 0) {
@@ -118,9 +112,9 @@ public class RequestFriends extends Activity {
                                     @Override
                                     public void done(List<ParseObject> parseObjects, ParseException e) {
                                         ParseObject currentUser = parseObjects.get(0);
-                                        List requestingTo = currentUser.getList("FriendsRequested");
-                                        List receivingFrom = newUser.getList("FriendsRequestsReceived");
-                                        List friendsOfCurrentUser = currentUser.getList("Friends");
+                                        List<String> requestingTo = currentUser.getList("FriendsRequested");
+                                        List<String> receivingFrom = newUser.getList("FriendsRequestsReceived");
+                                        List<String> friendsOfCurrentUser = currentUser.getList("Friends");
                                         // If not friends already, then add to the respective columns
                                         boolean already_friend = true;
                                         boolean already_requested = true;
@@ -171,7 +165,7 @@ public class RequestFriends extends Activity {
     }
 
     private void doAutoComplete() {
-        final List<String> users = new ArrayList<String>();
+        final List<String> users = new ArrayList<>();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -184,7 +178,7 @@ public class RequestFriends extends Activity {
                 }
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.textView3, users);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.textView3, users);
         autoComplete.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {

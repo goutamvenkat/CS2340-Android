@@ -15,7 +15,8 @@
         android:id="@+id/RegisterUserNameEditText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         android:layout_below="@+id/RegisterUserNameEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Email" />
+        android:hint="Email"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:layout_width="match_parent"
@@ -37,7 +39,8 @@
         android:layout_below="@+id/RegisterEmailEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Password" />
+        android:hint="Password"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:layout_width="match_parent"
@@ -45,5 +48,6 @@
         android:text="Register"
         android:id="@+id/RegisterButton"
         android:layout_below="@+id/RegisterPasswordEditText"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        tools:ignore="HardcodedText" />
 </RelativeLayout>

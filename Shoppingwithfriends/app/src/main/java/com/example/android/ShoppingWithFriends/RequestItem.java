@@ -28,16 +28,15 @@ import java.util.List;
  */
 public class RequestItem extends Activity {
 
-    protected EditText itemName;
-    protected EditText itemPrice;
-    protected Button requestItemButton;
+    private EditText itemName;
+    private EditText itemPrice;
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_item);
 
-        //Initilialize Parse
+        //Initialize Parse
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
@@ -45,7 +44,7 @@ public class RequestItem extends Activity {
         //Initialize Components
         itemName = (EditText) findViewById(R.id.ItemName);
         itemPrice = (EditText) findViewById(R.id.MaxPrice);
-        requestItemButton = (Button) findViewById(R.id.RequestItemButton);
+        Button requestItemButton = (Button) findViewById(R.id.RequestItemButton);
 
         requestItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +57,7 @@ public class RequestItem extends Activity {
                 //Empty case handled
                 if (nameOfItem.length() == 0 || strPrice.length() == 0) {
                     Utility.showMessage("Fields cannot be left empty", "Item Request Failed", RequestItem.this);
-                }
-                else {
+                } else {
                     final Integer price = Integer.parseInt(strPrice);
                     ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Items");
                     currentUserQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
@@ -70,7 +68,7 @@ public class RequestItem extends Activity {
                                 // Find the corresponding user
                                 ParseObject currentUser = parseObjects.get(0);
                                 //Check for duplicates
-                                try{
+                                try {
                                     JSONObject myItems = currentUser.getJSONObject("MyItems");
                                     if (!myItems.isNull(nameOfItem)) {
                                         Utility.showMessage("Replaced threshold", "Duplicate Item", RequestItem.this);

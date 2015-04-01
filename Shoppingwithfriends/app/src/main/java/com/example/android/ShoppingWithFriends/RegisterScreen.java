@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -31,17 +30,16 @@ import java.util.*;
 
 public class RegisterScreen extends Activity {
 
-    protected EditText mUserName;
-    protected EditText mEmail;
-    protected EditText mPassword;
-    protected Button RegisterButton;
+    private EditText mUserName;
+    private EditText mEmail;
+    private EditText mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_screen);
 
-        //Initilialize Parse
+        //Initialize Parse
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
@@ -50,11 +48,11 @@ public class RegisterScreen extends Activity {
         mUserName = (EditText) findViewById(R.id.RegisterUserNameEditText);
         mEmail = (EditText) findViewById(R.id.RegisterEmailEditText);
         mPassword = (EditText) findViewById(R.id.RegisterPasswordEditText);
-        RegisterButton = (Button) findViewById(R.id.RegisterButton);
+        Button registerButton = (Button) findViewById(R.id.RegisterButton);
 
 
         //Listen to Register Button Click
-        RegisterButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -77,7 +75,7 @@ public class RegisterScreen extends Activity {
                         @Override
                         public void done(ParseException e) {
 
-                            //Successfull Signup
+                            //Successful Sign up
                             if (null == e) {
 
                                 Toast.makeText(RegisterScreen.this, "Success", Toast.LENGTH_LONG).show();

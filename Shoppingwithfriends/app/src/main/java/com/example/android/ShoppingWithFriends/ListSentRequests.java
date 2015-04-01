@@ -38,7 +38,7 @@ public class ListSentRequests extends Activity {
                 if (e == null && objects.size() > 0) {
                     final ParseObject targetUser = objects.get(0);
                     final List FriendRequestsSent = targetUser.getList("FriendsRequested");
-                    final ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ListSentRequests.this, R.layout.activity_list_each_sent_request, R.id.textViewEachSentRequest, FriendRequestsSent);
+                    @SuppressWarnings("unchecked") final ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(ListSentRequests.this, R.layout.activity_list_each_sent_request, R.id.textViewEachSentRequest, FriendRequestsSent);
                     friendList.setAdapter(listAdapter);
 
                 }

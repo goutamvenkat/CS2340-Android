@@ -1,7 +1,6 @@
 package com.example.android.ShoppingWithFriends;
 
 import android.app.AlertDialog;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,13 +12,12 @@ import android.provider.Settings;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by Goutam Venkat on 2/26/15.
  */
+@SuppressWarnings("ALL")
 public class Utility {
-    protected static String GOOGLE_API_KEY = "AIzaSyCZzrnj8f5c-6QZRZsFKy37XmcwfBEM7W0";
     /**
      * method showMessage
      * @param message String
@@ -84,6 +82,7 @@ public class Utility {
             getLocation();
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Location getLocation() {
             try {
                 locationManager = (LocationManager) mContext
@@ -144,15 +143,17 @@ public class Utility {
             return location;
         }
 
-        /**
-         * Stop using GPS listener
-         * Calling this function will stop using GPS in your app
-         * */
-        public void stopUsingGPS(){
-            if(locationManager != null){
-                locationManager.removeUpdates(GPSTracker.this);
-            }
-        }
+// --Commented out by Inspection START (3/31/15, 10:44 PM):
+//        /**
+//         * Stop using GPS listener
+//         * Calling this function will stop using GPS in your app
+//         * */
+//        public void stopUsingGPS(){
+//            if(locationManager != null){
+//                locationManager.removeUpdates(GPSTracker.this);
+//            }
+//        }
+// --Commented out by Inspection STOP (3/31/15, 10:44 PM)
 
         /**
          * Function to get latitude

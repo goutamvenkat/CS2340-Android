@@ -1,7 +1,6 @@
 package com.example.android.ShoppingWithFriends;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -9,29 +8,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
 public class ForgotPasswordActivity extends Activity {
-    private Button sendEmailButton;
     private EditText emailEditText;
     private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
+        Button sendEmailButton = (Button) findViewById(R.id.sendEmailButton);
         emailEditText = (EditText) findViewById(R.id.forgotPasswordEmail);
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +41,6 @@ public class ForgotPasswordActivity extends Activity {
         if (TextUtils.isEmpty(email) || (!email.contains("@") && !email.contains("."))) {
             Utility.showMessage("Not of email format", "Invalid Email", this);
             emailEditText.setText("");
-            return;
         } else {
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("email", email);
@@ -62,7 +55,6 @@ public class ForgotPasswordActivity extends Activity {
                     }
                 }
             });
-            return;
         }
     }
 

@@ -1,3 +1,4 @@
+<!--suppress XmlUnusedNamespaceDeclaration -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
 android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -10,14 +11,16 @@ android:orientation="vertical">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Item Name"
-    android:id="@+id/ItemName"/>
+    android:id="@+id/ItemName"
+    tools:ignore="HardcodedText" />
 <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Maximum Price"
     android:id="@+id/MaxPrice"
     android:ems="10"
-    android:inputType="numberDecimal" />
+    android:inputType="numberDecimal"
+    tools:ignore="HardcodedText" />
 
 
 
@@ -25,7 +28,8 @@ android:orientation="vertical">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Request Item"
-    android:id="@+id/RequestItemButton"/>
+    android:id="@+id/RequestItemButton"
+        tools:ignore="HardcodedText" />
 
 
 
