@@ -86,8 +86,11 @@ public class UtilityTests extends ActivityUnitTestCase<LoginActivity> {
     public void testSuccessCase() {
         JSONArray arr = getArray();
         JSONArray modified = Utility.remove(arr, 0);
-        arr.remove(0);
-        assertEquals(arr, modified);
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(0, 2);
+        list.add(1,3);
+        JSONArray array = new JSONArray(list);
+        assertEquals(array, modified);
     }
 
 }
