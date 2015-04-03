@@ -60,7 +60,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         assertNotNull(myActivity);
         assertNotNull(mUsername);
@@ -77,7 +77,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         final View decorView = myActivity.getWindow().getDecorView();
 
@@ -105,7 +105,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         final View decorView = myActivity.getWindow().getDecorView();
         ViewAsserts.assertOnScreen(decorView, logo);
@@ -119,6 +119,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
+            return;
         };
 
         solo.enterText(mUsername, "");
@@ -140,6 +141,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
+            return;
         };
 
         solo.enterText(mUsername, "XYZ");
@@ -162,6 +164,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         try {
             setUp();
         } catch (Exception e) {
+            return;
         };
 
         solo.enterText(mUsername, "g");

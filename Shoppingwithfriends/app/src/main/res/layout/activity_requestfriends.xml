@@ -34,7 +34,7 @@
         android:layout_toLeftOf="@+id/userLoggedIn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <Button
         android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
         android:layout_marginTop="40dp"
         android:autoText="false"
         android:textIsSelectable="false"
-        tools:ignore="TextViewEdits" />
+        tools:ignore="Deprecated,TextViewEdits" />
 
     <Button
         android:layout_width="wrap_content"

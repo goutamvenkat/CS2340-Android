@@ -12,6 +12,7 @@ import com.robotium.solo.Solo;
 /**
  * Created by Goutam Venkat on 3/31/15.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2<ForgotPasswordActivity> {
     private Activity myActivity;
     private EditText emailEditText;
@@ -126,6 +127,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         assertEquals(true, solo.waitForText("Not of email format"));
         solo.clickOnButton("Ok");
     }
+
+    /**
+     * Valid email go to Parse
+     */
     public void testValidEmail() {
         solo.enterText(emailEditText, "g@g.com");
         getInstrumentation().runOnMainSync(new Runnable() {

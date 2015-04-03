@@ -3,7 +3,6 @@ package com.example.android.ShoppingWithFriends;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,8 +80,7 @@ public class ForgotPasswordActivity extends Activity {
                 break;
             }
         }
-        if ((index_of_first_at - index_of_first_dot <= 1) || (index_of_first_at == 0) || (index_of_first_at == str.length() - 1)) return false;
-        return true;
+        return !((index_of_first_at - index_of_first_dot <= 1) || (index_of_first_at == 0) || (index_of_first_at == str.length() - 1));
     }
     private void sendEmail() {
         ParseUser.requestPasswordResetInBackground(email, new ForgotPasswordCallBack());

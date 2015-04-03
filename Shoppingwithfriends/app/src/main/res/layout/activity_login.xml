@@ -14,7 +14,8 @@
         android:src="@drawable/shopex_logo"
         android:layout_height="99dp"
         android:id="@+id/Logo"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:textColor="@color/bright_foreground_material_dark"
         android:backgroundTint="@color/background_floating_material_light"
         android:maxLines="1"
-        tools:ignore="HardcodedText" />
+        tools:ignore="Deprecated,HardcodedText,UnusedAttribute" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
         android:maxLines="1"
         android:textColor="@color/bright_foreground_material_dark"
         android:backgroundTint="@color/background_floating_material_light"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,UnusedAttribute" />
 
     <Button
         android:layout_width="match_parent"
@@ -88,7 +89,8 @@
         android:paddingRight="@dimen/com_facebook_loginview_padding_right"
         android:paddingBottom="@dimen/com_facebook_loginview_padding_bottom"
         android:id="@+id/FacebookRegister"
-        android:onClick="onLoginClick"/>
+        android:onClick="onLoginClick"
+        tools:ignore="RtlHardcoded" />
 
 
 

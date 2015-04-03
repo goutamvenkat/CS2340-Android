@@ -31,21 +31,16 @@ public class RequestFriends extends Activity {
     private AutoCompleteTextView autoComplete;
     private String fromAutoComplete = "";
     private Button requestFriendButton;
-    private Button displayFriendButton;
-
-    private Button requests;
-    private Button sent_requestsButton;
-    private Button logout;
 
     private void initialize() {
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
 
         //Initialize Components
         requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
-        displayFriendButton = (Button) findViewById(R.id.displaybutton);
+        Button displayFriendButton = (Button) findViewById(R.id.displaybutton);
 
-        requests = (Button) findViewById(R.id.friendRequestsReceived);
-        sent_requestsButton = (Button) findViewById(R.id.sent_requests);
+        Button requests = (Button) findViewById(R.id.friendRequestsReceived);
+        Button sent_requestsButton = (Button) findViewById(R.id.sent_requests);
 
         sent_requestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +68,7 @@ public class RequestFriends extends Activity {
             }
         });
 
-        logout = (Button) findViewById(R.id.logoutbutton);
+        Button logout = (Button) findViewById(R.id.logoutbutton);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,9 +13,10 @@ import java.util.ArrayList;
 /**
  * Created by Abhishek with help from Suvrat on 4/3/15.
  */
+@SuppressWarnings("DefaultFileTemplate")
 public class UtilityTests extends ActivityUnitTestCase<LoginActivity> {
 
-    Intent launchIntent;
+    private Intent launchIntent;
 
     public UtilityTests() {
         super(LoginActivity.class);
@@ -76,6 +77,7 @@ public class UtilityTests extends ActivityUnitTestCase<LoginActivity> {
 
     public void testUtilityNull() {
         JSONArray array = null;
+        //noinspection ConstantConditions
         assertEquals(new JSONArray(), Utility.remove(array, -1));
     }
 

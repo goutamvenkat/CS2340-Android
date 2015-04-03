@@ -1,9 +1,8 @@
 package AndroidTesting;
 
 /**
- * Created by KaranPrime on 4/3/15.
+ * Created by KaranPrime
  */
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.View;
@@ -50,7 +49,7 @@ public class RegisterScreenTest extends ActivityInstrumentationTestCase2<Registe
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         assertNotNull(myActivity);
         assertNotNull(mUserName);
@@ -67,7 +66,7 @@ public class RegisterScreenTest extends ActivityInstrumentationTestCase2<Registe
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         final View decorView = myActivity.getWindow().getDecorView();
 

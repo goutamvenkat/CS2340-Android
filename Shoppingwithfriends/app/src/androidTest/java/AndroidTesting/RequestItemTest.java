@@ -1,7 +1,7 @@
 package AndroidTesting;
 
 /**
- * Created by Bhavani on 4/3/15.
+ * Created by Bhavani
  */
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -21,7 +21,7 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
     private RequestItem myActivity;
     private EditText itemName;
     private EditText itemPrice;
-    Button requestItemButton;
+    private Button requestItemButton;
 
     public RequestItemTest() {
         super(RequestItem.class);
@@ -49,7 +49,7 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         assertNotNull(myActivity);
         assertNotNull(itemName);
@@ -65,7 +65,7 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
         try {
             setUp();
         } catch (Exception e) {
-
+            return;
         };
         final View decorView = myActivity.getWindow().getDecorView();
 
