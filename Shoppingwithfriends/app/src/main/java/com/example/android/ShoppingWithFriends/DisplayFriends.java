@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -16,7 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import android.widget.ArrayAdapter;
 
 import java.util.List;
 
@@ -25,6 +25,10 @@ import java.util.List;
  * Created by Goutam V. on 2/17/15.
  */
 public class DisplayFriends extends Activity{
+
+    public ParseUser getUser() {
+        return ParseUser.getCurrentUser();
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayfriends);
@@ -102,7 +106,7 @@ public class DisplayFriends extends Activity{
             }
         };
     }
-    private void removeFriend(List Friends, String selectedFriend, final ParseObject currentUser) {
+    public void removeFriend(List Friends, String selectedFriend, final ParseObject currentUser) {
         Friends.remove(selectedFriend);
         currentUser.put("Friends", Friends);
         currentUser.saveInBackground();
@@ -122,4 +126,25 @@ public class DisplayFriends extends Activity{
             }
         });
     }
+
+    private List getFriends(String userName) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Friends");
+        query.whereEqualTo("username", userName);
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null && objects.size() > 0) {
+                    final ParseObject targetUser = objects.get(0);
+                    final List<String> Friends = targetUser.getList("Friends");
+                }
+            }
+        });
+
+        return null;
+
+
+    }
+
+
 }

@@ -13,6 +13,7 @@
         android:layout_width="120dp"
         android:src="@drawable/shopex_logo"
         android:layout_height="99dp"
+        android:id="@+id/Logo"
         android:layout_gravity="center_horizontal" />
 
     <EditText
@@ -93,6 +94,7 @@
         android:paddingTop="@dimen/com_facebook_loginview_padding_top"
         android:paddingRight="@dimen/com_facebook_loginview_padding_right"
         android:paddingBottom="@dimen/com_facebook_loginview_padding_bottom"
+        android:id="@+id/FacebookRegister"
         android:onClick="onLoginClick"/>
 
 

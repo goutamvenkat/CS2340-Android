@@ -30,22 +30,23 @@ public class RequestFriends extends Activity {
 
     private AutoCompleteTextView autoComplete;
     private String fromAutoComplete = "";
+    private Button requestFriendButton;
+    private Button displayFriendButton;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_requestfriends);
+    private Button requests;
+    private Button sent_requestsButton;
+    private Button logout;
 
-        //Initialize Parse
-
-        //Parse.enableLocalDatastore(this);
+    private void initialize() {
         Parse.initialize(this, "xnRG7E5e4NJdotEwXwxw756i2jclVNDEntRcRSdV", "lFm5wKaTg1dZ0sH6jUgLYa7Zo8AK2HkbNX3mRCjD");
 
         //Initialize Components
-        Button requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
-        Button displayFriendButton = (Button) findViewById(R.id.displaybutton);
+        requestFriendButton = (Button) findViewById(R.id.requestFriendButton);
+        displayFriendButton = (Button) findViewById(R.id.displaybutton);
 
-        Button requests = (Button) findViewById(R.id.friendRequestsReceived);
-        Button sent_requestsButton = (Button) findViewById(R.id.sent_requests);
+        requests = (Button) findViewById(R.id.friendRequestsReceived);
+        sent_requestsButton = (Button) findViewById(R.id.sent_requests);
+
         sent_requestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +72,8 @@ public class RequestFriends extends Activity {
                 startActivity(takelistfriends);
             }
         });
-        //Listen to Register Button Click
-        Button logout = (Button) findViewById(R.id.logoutbutton);
+
+        logout = (Button) findViewById(R.id.logoutbutton);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +87,21 @@ public class RequestFriends extends Activity {
                 finish();
             }
         });
+
+    }
+
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_requestfriends);
+        initialize();
+
+        //Initialize Parse
+
+        //Parse.enableLocalDatastore(this);
+
+
+
         requestFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,65 +119,71 @@ public class RequestFriends extends Activity {
                     query.whereEqualTo("username", fromAutoComplete);
                     query.findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> object, ParseException e) {
+                            addFriends(object, e);
 
-                            if (e == null && object.size() > 0) {
-                                final ParseObject newUser = object.get(0);
-                                ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Friends");
-                                currentUserQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-                                currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
-                                    @Override
-                                    public void done(List<ParseObject> parseObjects, ParseException e) {
-                                        ParseObject currentUser = parseObjects.get(0);
-                                        List<String> requestingTo = currentUser.getList("FriendsRequested");
-                                        List<String> receivingFrom = newUser.getList("FriendsRequestsReceived");
-                                        List<String> friendsOfCurrentUser = currentUser.getList("Friends");
-                                        // If not friends already, then add to the respective columns
-                                        boolean already_friend = true;
-                                        boolean already_requested = true;
-                                        if (!friendsOfCurrentUser.contains(fromAutoComplete)) {
-                                            already_friend = false;
-                                            if (!requestingTo.contains(fromAutoComplete)) {
-                                                requestingTo.add(fromAutoComplete);
-                                                already_requested = false;
-                                            }
-                                            if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername()))
-                                                receivingFrom.add(ParseUser.getCurrentUser().getUsername());
-                                        }
-                                        final boolean AlreadyFriend = already_friend;
-                                        final boolean AlreadyRequested = already_requested;
-                                        currentUser.put("FriendsRequested", requestingTo);
-                                        newUser.put("FriendsRequestsReceived", receivingFrom);
 
-                                        currentUser.saveInBackground();
-
-                                        newUser.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                    if (AlreadyFriend) {
-                                                        Utility.showMessage("Already a Friend!", "No request", RequestFriends.this);
-                                                    } else if (AlreadyRequested) {
-                                                        Utility.showMessage("Already Requested!", "No request", RequestFriends.this);
-                                                    } else {
-                                                        Utility.showMessage("Friend Request Sent!", "Friend Request Sent!", RequestFriends.this);
-                                                    }
-                                                } else {
-                                                    Utility.showMessage(e.getMessage(), "User not Found!", RequestFriends.this);
-                                                }
-                                                autoComplete.setText("");
-                                            }
-                                        });
-                                    }
-                                });
-                            } else {
-                                Utility.showMessage("User not Found!", "User not found!", RequestFriends.this);
-                                autoComplete.setText("");
-                            }
                         }
                     });
                 }
             }
         });
+    }
+
+    private void addFriends(List<ParseObject> object, ParseException e) {
+        if (e == null && object.size() > 0) {
+            final ParseObject newUser = object.get(0);
+            ParseQuery<ParseObject> currentUserQuery = ParseQuery.getQuery("Friends");
+            currentUserQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+            currentUserQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    ParseObject currentUser = parseObjects.get(0);
+                    List<String> requestingTo = currentUser.getList("FriendsRequested");
+                    List<String> receivingFrom = newUser.getList("FriendsRequestsReceived");
+                    List<String> friendsOfCurrentUser = currentUser.getList("Friends");
+                    // If not friends already, then add to the respective columns
+                    boolean already_friend = true;
+                    boolean already_requested = true;
+                    if (!friendsOfCurrentUser.contains(fromAutoComplete)) {
+                        already_friend = false;
+                        if (!requestingTo.contains(fromAutoComplete)) {
+                            requestingTo.add(fromAutoComplete);
+                            already_requested = false;
+                        }
+                        if (!receivingFrom.contains(ParseUser.getCurrentUser().getUsername()))
+                            receivingFrom.add(ParseUser.getCurrentUser().getUsername());
+                    }
+                    final boolean AlreadyFriend = already_friend;
+                    final boolean AlreadyRequested = already_requested;
+                    currentUser.put("FriendsRequested", requestingTo);
+                    newUser.put("FriendsRequestsReceived", receivingFrom);
+
+                    currentUser.saveInBackground();
+
+                    newUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                if (AlreadyFriend) {
+                                    Utility.showMessage("Already a Friend!", "No request", RequestFriends.this);
+                                } else if (AlreadyRequested) {
+                                    Utility.showMessage("Already Requested!", "No request", RequestFriends.this);
+                                } else {
+                                    Utility.showMessage("Friend Request Sent!", "Friend Request Sent!", RequestFriends.this);
+                                }
+                            } else {
+                                Utility.showMessage(e.getMessage(), "User not Found!", RequestFriends.this);
+                            }
+                            autoComplete.setText("");
+                        }
+                    });
+
+                }
+            });
+        } else {
+            Utility.showMessage("User not Found!", "User not found!", RequestFriends.this);
+            autoComplete.setText("");
+        }
     }
 
     private void doAutoComplete() {

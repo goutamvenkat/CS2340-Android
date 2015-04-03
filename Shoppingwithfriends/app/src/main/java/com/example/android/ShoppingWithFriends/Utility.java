@@ -38,7 +38,7 @@ public class Utility {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-    protected static JSONArray remove(JSONArray array, int index) {
+    public static JSONArray remove(JSONArray array, int index) {
         JSONArray newArray = new JSONArray();
         try{
             for (int i = 0; i < array.length(); i++) {
