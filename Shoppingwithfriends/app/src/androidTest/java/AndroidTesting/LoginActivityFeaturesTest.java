@@ -173,6 +173,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
             }
         });
         assertTrue(solo.waitForText("Welcome Back"));
+        solo.clickOnButton("Logout");
     }
 
 }

@@ -30,6 +30,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         emailEditText = (EditText) myActivity.findViewById(R.id.forgotPasswordEmail);
         button = (Button) myActivity.findViewById(R.id.sendEmailButton);
     }
+
+    /**
+     * Tests empty string
+     */
     public void testInvalidEmptyString() {
         solo.enterText(emailEditText, "");
         getInstrumentation().runOnMainSync(new Runnable() {
@@ -42,6 +46,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         solo.clickOnButton("Ok");
 
     }
+
+    /**
+     * Tests with no @ symbol
+     */
     public void testInvalidNoAt() {
         solo.enterText(emailEditText, "gg.com");
 
@@ -54,6 +62,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         assertEquals(true, solo.waitForText("Not of email format"));
         solo.clickOnButton("Ok");
     }
+
+    /**
+     * Tests with email with no '.'
+     */
     public void testInvalidNoDot() {
         solo.enterText(emailEditText, "g@gcom");
 
@@ -66,6 +78,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         assertEquals(true, solo.waitForText("Not of email format"));
         solo.clickOnButton("Ok");
     }
+
+    /**
+     * Tests crazy string
+     */
     public void testInvalidCrazy() {
         solo.enterText(emailEditText, "@g.g.com");
 
@@ -78,6 +94,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         assertEquals(true, solo.waitForText("Not of email format"));
         solo.clickOnButton("Ok");
     }
+
+    /**
+     * Tests with @ at beginning of string
+     */
     public void testInvalidAtBeginning() {
         solo.enterText(emailEditText, "@@.com");
 
@@ -90,6 +110,10 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
         assertEquals(true, solo.waitForText("Not of email format"));
         solo.clickOnButton("Ok");
     }
+
+    /**
+     * Email begins with '.'
+     */
     public void testInvalidDotBeginning() {
         solo.enterText(emailEditText, "..@");
 
@@ -100,6 +124,17 @@ public class ForgotPasswordActivityTest extends ActivityInstrumentationTestCase2
             }
         });
         assertEquals(true, solo.waitForText("Not of email format"));
+        solo.clickOnButton("Ok");
+    }
+    public void testValidEmail() {
+        solo.enterText(emailEditText, "g@g.com");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+            }
+        });
+        assertEquals(true, solo.waitForText("Not a registered email!"));
         solo.clickOnButton("Ok");
     }
     @Override
