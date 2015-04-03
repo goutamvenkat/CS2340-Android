@@ -62,7 +62,7 @@ public class LoginActivity extends Activity {
                 String password = mPassword.getText().toString().trim();
 
                 if (username.length() == 0 || password.length() == 0) {
-                    Toast.makeText(LoginActivity.this, "Fields cannot be left empty", Toast.LENGTH_LONG).show();
+                    Utility.showMessage("Fields cannot be left empty", "Empty Fields", LoginActivity.this);
                 } else {
 
 

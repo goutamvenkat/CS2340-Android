@@ -129,7 +129,8 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
                 LoginButton.performClick();
             }
         });
-        assertTrue("Invalid Credentials", solo.waitForText("Fields cannot be left empty"));
+        assertTrue("Invalid Credentials", solo.waitForText("Empty Fields"));
+        solo.clickOnButton("OK");
     }
 
     /**
