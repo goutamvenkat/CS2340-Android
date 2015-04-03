@@ -130,7 +130,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
             }
         });
         assertTrue("Invalid Credentials", solo.waitForText("Empty Fields"));
-        solo.clickOnButton("OK");
+        solo.clickOnButton("Ok");
     }
 
     /**
