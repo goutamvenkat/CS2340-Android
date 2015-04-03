@@ -61,21 +61,26 @@ public class LoginActivity extends Activity {
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
+                if (username.length() == 0 || password.length() == 0) {
+                    Toast.makeText(LoginActivity.this, "Fields cannot be left empty", Toast.LENGTH_LONG).show();
+                } else {
 
-                ParseUser.logInInBackground(username, password, new LogInCallback() {
 
-                    public void done(ParseUser user, ParseException e) {
+                    ParseUser.logInInBackground(username, password, new LogInCallback() {
 
-                        if (user != null) {
+                        public void done(ParseUser user, ParseException e) {
 
-                            Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
-                            goToMain();
+                            if (user != null) {
 
-                        } else {
-                            Utility.showMessage(e.getMessage(), "Login Failed!", LoginActivity.this);
+                                Toast.makeText(LoginActivity.this, "Welcome Back", Toast.LENGTH_LONG).show();
+                                goToMain();
+
+                            } else {
+                                Utility.showMessage(e.getMessage(), "Login Failed!", LoginActivity.this);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

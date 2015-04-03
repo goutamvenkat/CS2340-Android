@@ -11,11 +11,13 @@ import android.widget.ImageView;
 
 import com.example.android.ShoppingWithFriends.LoginActivity;
 import com.example.android.ShoppingWithFriends.R;
+import com.robotium.solo.Solo;
 
 /**
- * Created by Suvrat on 4/3/15.
+ * Tests Login Activity Features
  *
- * @version 1.0
+ * @author Suvrat Bhooshan
+ * @version 2.0
  */
 public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
@@ -26,6 +28,7 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
     private Button RegisterButton;
     private Button FacebookButton;
     private ImageView logo;
+    private Solo solo;
 
     public LoginActivityFeaturesTest() {
         super(LoginActivity.class);
@@ -46,6 +49,8 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         RegisterButton = (Button) myActivity.findViewById(R.id.LoginRegister);
         FacebookButton = (Button) myActivity.findViewById(R.id.FacebookRegister);
         logo = (ImageView) myActivity.findViewById(R.id.Logo);
+
+        solo = new Solo(getInstrumentation(), myActivity);
     }
 
     /**
@@ -105,6 +110,68 @@ public class LoginActivityFeaturesTest extends ActivityInstrumentationTestCase2<
         final View decorView = myActivity.getWindow().getDecorView();
         ViewAsserts.assertOnScreen(decorView, logo);
         assertTrue(View.VISIBLE == logo.getVisibility());
+    }
+
+    /**
+     * Tests Login feature when you leave the fields blank
+     */
+    public void testEmptyLoginCredentials() {
+        try {
+            setUp();
+        } catch (Exception e) {
+        };
+
+        solo.enterText(mUsername, "");
+        solo.enterText(mPassword, "");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                LoginButton.performClick();
+            }
+        });
+        assertTrue("Invalid Credentials", solo.waitForText("Fields cannot be left empty"));
+    }
+
+    /**
+     * Tests Login feature when you enter invalid credentials
+     */
+    public void testInvalidUserCredentials() {
+        try {
+            setUp();
+        } catch (Exception e) {
+        };
+
+        solo.enterText(mUsername, "XYZ");
+        solo.enterText(mPassword, "XYZ");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                LoginButton.performClick();
+            }
+        });
+        assertTrue("Invalid Credentials", solo.waitForText("Login Failed!"));
+        solo.clickOnButton("Ok");
+
+    }
+
+    /**
+     * Correct login test
+     */
+    public void testValidLoginCredentials() {
+        try {
+            setUp();
+        } catch (Exception e) {
+        };
+
+        solo.enterText(mUsername, "g");
+        solo.enterText(mPassword, "x");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                LoginButton.performClick();
+            }
+        });
+        assertTrue(solo.waitForText("Welcome Back"));
     }
 
 }
