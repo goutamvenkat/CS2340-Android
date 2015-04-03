@@ -3,6 +3,7 @@ package com.example.android.ShoppingWithFriends;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,8 +38,7 @@ public class ForgotPasswordActivity extends Activity {
     }
 
     private void validateEmail() {
-
-        if (TextUtils.isEmpty(email) || (!email.contains("@") && !email.contains("."))) {
+        if (!isOfValidFormat()) {
             Utility.showMessage("Not of email format", "Invalid Email", this);
             emailEditText.setText("");
         } else {
@@ -57,7 +57,31 @@ public class ForgotPasswordActivity extends Activity {
             });
         }
     }
-
+    private boolean isOfValidFormat() {
+        if (TextUtils.isEmpty(email)) return false;
+        else if (!email.contains("@") || !email.contains(".")) return false;
+        StringBuilder str = new StringBuilder();
+        for (int i = email.length() - 1; i >= 0; i--) {
+            str.append(email.charAt(i));
+        }
+        int index_of_first_dot = 0;
+        int index_of_first_at = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '.') {
+                index_of_first_dot = i;
+                break;
+            }
+        }
+        if (index_of_first_dot == 0) return false;
+        for (int i = index_of_first_dot + 1; i < str.length(); i++) {
+            if (str.charAt(i) == '@') {
+                index_of_first_at = i;
+                break;
+            }
+        }
+        if ((index_of_first_at - index_of_first_dot <= 1) || (index_of_first_at == 0) || (index_of_first_at == str.length() - 1)) return false;
+        return true;
+    }
     private void sendEmail() {
         ParseUser.requestPasswordResetInBackground(email, new ForgotPasswordCallBack());
     }
