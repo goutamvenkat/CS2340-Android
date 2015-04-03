@@ -15,6 +15,10 @@ import android.widget.EditText;
 
 import com.example.android.ShoppingWithFriends.RequestItem;
 import com.example.android.ShoppingWithFriends.R;
+import com.robotium.solo.Solo;
+
+import java.util.Random;
+
 
 public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestItem> {
 
@@ -22,6 +26,8 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
     private EditText itemName;
     private EditText itemPrice;
     private Button requestItemButton;
+    private Solo solo;
+
 
     public RequestItemTest() {
         super(RequestItem.class);
@@ -40,6 +46,8 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
         itemName = (EditText) myActivity.findViewById(R.id.ItemName);
         itemPrice = (EditText) myActivity.findViewById(R.id.MaxPrice);
         requestItemButton = (Button) myActivity.findViewById(R.id.RequestItemButton);
+        solo = new Solo(getInstrumentation(), myActivity);
+
     }
 
     /**
@@ -80,6 +88,78 @@ public class RequestItemTest extends ActivityInstrumentationTestCase2<RequestIte
         assertEquals(layoutParams1.width, WindowManager.LayoutParams.MATCH_PARENT);
         assertEquals(layoutParams1.height, WindowManager.LayoutParams.WRAP_CONTENT);
     }
+
+    /**
+     * Tests Item request feature when you leave the fields blank
+     */
+    public void testEmptyItem() {
+        try {
+            setUp();
+        } catch (Exception e) {
+            return;
+        };
+
+        solo.enterText(itemName, "");
+        solo.enterText(itemPrice, "");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                requestItemButton.performClick();
+            }
+        });
+        assertTrue("Invalid Credentials", solo.waitForText("Item Request Failed"));
+        solo.clickOnButton("Ok");
+    }
+
+    /**
+     * Tests RequestItem feature when item already exists
+     */
+    /*public void testExistingItem() {
+        try {
+            setUp();
+        } catch (Exception e) {
+            return;
+        };
+
+        solo.enterText(itemName, "3");
+        solo.enterText(itemPrice, "3");
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                requestItemButton.performClick();
+            }
+        });
+        assertTrue("Duplicate Credentials", solo.waitForText("Duplicate Item"));
+        solo.clickOnButton("Ok");
+    }
+*/
+    /**
+     * Correct item test makes random item
+     */
+   /* public void testValidItem() {
+        try {
+            setUp();
+        } catch (Exception e) {
+            return;
+        };
+        Random r = new Random();        //To create random item
+
+
+
+        int n[] = new int[] {97 + r.nextInt(26),97 + r.nextInt(26)};
+        String us = ((char)n[0] + "a" + (char)n[1] + "om");
+
+        solo.enterText(itemName, us);
+        solo.enterText(itemPrice, Integer.toString(r.nextInt()));
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                requestItemButton.performClick();
+            }
+        });
+        assertTrue(solo.waitForText("Success"));
+    }*/
+
 
 
 

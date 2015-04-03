@@ -19,6 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import com.robotium.solo.Solo;
+
+
 
 /**
  * Handles Requesting items by user
@@ -30,6 +33,7 @@ public class RequestItem extends Activity {
 
     private EditText itemName;
     private EditText itemPrice;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
